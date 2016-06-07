@@ -1,4 +1,4 @@
-CES : Camera Emulation Server
+# CES : Camera Emulation Server
 
 [![cameradar License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
 [![Latest release](https://img.shields.io/badge/release-0.1.0-green.svg)](https://github.com/EtixLabs/CES/releases/latest)

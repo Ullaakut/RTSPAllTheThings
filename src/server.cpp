@@ -38,7 +38,7 @@ static gboolean timeout(GstRTSPServer *server) {
   gst_rtsp_session_pool_cleanup(pool);
   g_object_unref(pool);
 
-  return TRUE;
+  return true;
 }
 
 void init(t_server *serv) {
@@ -74,21 +74,13 @@ void init_server_auth(t_server *serv) {
   gst_rtsp_mount_points_add_factory(serv->mounts, serv->path, serv->factory);
 
   if (strlen(serv->username)) {
-    /* admin2 can look at the media but not construct so he gets a
+    /* the user can look at the media but not construct so he gets a
     * 401 Unauthorized */
     gst_rtsp_media_factory_add_role(
         serv->factory, serv->username, GST_RTSP_PERM_MEDIA_FACTORY_ACCESS,
-        G_TYPE_BOOLEAN, TRUE, GST_RTSP_PERM_MEDIA_FACTORY_CONSTRUCT,
-        G_TYPE_BOOLEAN, FALSE, NULL);
+        G_TYPE_BOOLEAN, true, GST_RTSP_PERM_MEDIA_FACTORY_CONSTRUCT,
+        G_TYPE_BOOLEAN, true, NULL);
   }
-  /* make another factory */
-  serv->factory = gst_rtsp_media_factory_new();
-  gst_rtsp_media_factory_set_launch(
-      serv->factory,
-      "( "
-      "videotestsrc ! video/x-raw,width=352,height=288,framerate=30/1 ! "
-      "x264enc ! rtph264pay name=pay0 pt=96 )");
-
   /* don't need the ref to the mapper anymore */
   g_object_unref(serv->mounts);
 
@@ -118,14 +110,12 @@ int server_launch(t_server *serv) {
   g_timeout_add_seconds(2, (GSourceFunc)timeout, serv->server);
   g_timeout_add_seconds(10, (GSourceFunc)remove_sessions, serv->server);
 
-  g_print("stream with ");
+  g_print("stream ready at rtsp://");
   /* start serving */
-  if (strlen(serv->username) > 0) {
-    g_print("%s:%s", serv->username, serv->password);
-  } else {
-    g_print("no ids");
-  }
-  g_print(" ready at rtsp://127.0.0.1:8554/%s\n", serv->path);
+  if (strlen(serv->username) > 0)
+    g_print("%s:%s@", serv->username, serv->password);
+
+  g_print("127.0.0.1:8554%s\n", serv->path);
 
   g_main_loop_run(serv->loop);
 
@@ -145,16 +135,22 @@ int main(int argc, char *argv[]) {
   init(&serv);
 
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:p:")) != -1)
+  while ((c = getopt(argc, argv, "r:u:p:h")) != -1)
     switch (c) {
     case 'r':
-      serv.path = strdup(optarg);
+      if (optarg[0] == '/')
+        serv.path = strdup(optarg);
+      else
+        serv.path = strcat(strdup("/"), strdup(optarg));
       break;
     case 'u':
       serv.username = strdup(optarg);
       break;
     case 'p':
       serv.password = strdup(optarg);
+      break;
+    case 'h':
+      fprintf(stdout, "Usage: ./etix_rtsp_server [-r route] [-u username] [-p password]\n");
       break;
     case '?':
       if (optopt == 'r' || optopt == 'p' || optopt == 'u')

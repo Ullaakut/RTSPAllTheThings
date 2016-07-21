@@ -1,7 +1,7 @@
-# CES : Camera Emulation Server
+# CES : Camera Emulation Server 0.1.1
 
 [![cameradar License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
-[![Latest release](https://img.shields.io/badge/release-0.1.0-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
+[![Latest release](https://img.shields.io/badge/release-0.1.1-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
 
 ### RTSP server with authentication for testing purposes
 

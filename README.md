@@ -13,8 +13,8 @@
 * [gstreamer 1.8 or later](https://github.com/GStreamer/gstreamer)
 
 ## Step-by-step installation
-1. `git clone ssh://git@git.etixlabs.com/cctv/etix_rtsp_server.git`
-2. `cd etix_rtsp_server`
+1. `git clone git@github.com:EtixLabs/CES.git`
+2. `cd CES`
 3. `mkdir build`
 4. `cd build`
 5. `cmake ..`

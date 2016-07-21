@@ -22,7 +22,6 @@ static gboolean remove_func(GstRTSPSessionPool *pool, GstRTSPSession *session,
 static gboolean remove_sessions(GstRTSPServer *server) {
   GstRTSPSessionPool *pool;
 
-  g_print("removing all sessions\n");
   pool = gst_rtsp_server_get_session_pool(server);
   gst_rtsp_session_pool_filter(pool, (GstRTSPSessionPoolFilterFunc)remove_func,
                                server);
@@ -42,7 +41,7 @@ static gboolean timeout(GstRTSPServer *server) {
 }
 
 void init(t_server *serv) {
-  serv->path = strdup("");
+  serv->path = strdup("/live.sdp");
   serv->username = strdup("");
   serv->password = strdup("");
 }
@@ -70,7 +69,7 @@ void init_server_auth(t_server *serv) {
       "audiotestsrc ! audio/x-raw,rate=8000 ! "
       "alawenc ! rtppcmapay name=pay1 pt=97 "
       ")");
-  /* attach the test factory to the /test url */
+  /* attach the test factory to the given path */
   gst_rtsp_mount_points_add_factory(serv->mounts, serv->path, serv->factory);
 
   if (strlen(serv->username)) {

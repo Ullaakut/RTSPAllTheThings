@@ -41,9 +41,15 @@ static gboolean timeout(GstRTSPServer *server) {
 }
 
 void init(t_server *serv) {
-  serv->path = strdup("/live.sdp");
-  serv->username = strdup("");
-  serv->password = strdup("");
+  /* Set default values for our config */
+  serv->config = std::make_unique<t_config>();
+  serv->config->route = strdup("/live.sdp");
+  serv->config->username = strdup("");
+  serv->config->password = strdup("");
+  serv->config->addr = strdup("127.0.0.1");
+  serv->config->port = strdup("8554");
+  serv->config->input = strdup("");
+
 }
 
 void init_server_auth(t_server *serv) {
@@ -56,41 +62,58 @@ void init_server_auth(t_server *serv) {
    * that be used to map uri mount points to media factories */
   serv->mounts = gst_rtsp_server_get_mount_points(serv->server);
 
+  /* Set the addr to bind */
+  gst_rtsp_server_set_address(serv->server, serv->config->addr);
+
+  /* Set the port to bind */
+  gst_rtsp_server_set_service(serv->server, serv->config->port);
+
   /* make a media factory for a test stream. The default media factory can use
    * gst-launch syntax to create pipelines.
    * any launch line works as long as it contains elements named pay%d. Each
    * element with pay%d names will be a stream */
   serv->factory = gst_rtsp_media_factory_new();
-  gst_rtsp_media_factory_set_launch(
-      serv->factory,
-      "( "
-      "videotestsrc ! video/x-raw,width=352,height=288,framerate=15/1 ! "
-      "x264enc ! rtph264pay name=pay0 pt=96 "
-      "audiotestsrc ! audio/x-raw,rate=8000 ! "
-      "alawenc ! rtppcmapay name=pay1 pt=97 "
-      ")");
-  /* attach the test factory to the given path */
-  gst_rtsp_mount_points_add_factory(serv->mounts, serv->path, serv->factory);
+  std::string launchCmd = "( ";
+  if (strlen(serv->config->input)) {
+      launchCmd += "multifilesrc loop=true location=";
+      launchCmd += serv->config->input;
+      launchCmd += " ! decodebin ! "
+                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! rtph264pay name=pay0 pt=96 "
+                   ")";
+  }
+  else {
+      launchCmd += "videotestsrc";
+      launchCmd += " ! video/x-raw,width=352,height=288,framerate=15/1 ! "
+                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! rtph264pay name=pay0 pt=96 "
+                   ")";
+  }
 
-  if (strlen(serv->username)) {
+  g_print("Launching stream with the following pipeline: %s\n", launchCmd.c_str());
+
+  gst_rtsp_media_factory_set_launch(
+      serv->factory, launchCmd.c_str());
+  /* attach the test factory to the given path */
+  gst_rtsp_mount_points_add_factory(serv->mounts, serv->config->route, serv->factory);
+
+  if (strlen(serv->config->username)) {
     /* the user can look at the media but not construct so he gets a
     * 401 Unauthorized */
     gst_rtsp_media_factory_add_role(
-        serv->factory, serv->username, GST_RTSP_PERM_MEDIA_FACTORY_ACCESS,
+        serv->factory, serv->config->username, GST_RTSP_PERM_MEDIA_FACTORY_ACCESS,
         G_TYPE_BOOLEAN, true, GST_RTSP_PERM_MEDIA_FACTORY_CONSTRUCT,
         G_TYPE_BOOLEAN, true, NULL);
   }
   /* don't need the ref to the mapper anymore */
   g_object_unref(serv->mounts);
 
-  if (strlen(serv->username)) {
+  if (strlen(serv->config->username)) {
     /* make a new authentication manager */
     serv->auth = gst_rtsp_auth_new();
 
     /* make admin token */
     serv->token = gst_rtsp_token_new(GST_RTSP_TOKEN_MEDIA_FACTORY_ROLE,
-                                     G_TYPE_STRING, serv->username, NULL);
-    serv->basic = gst_rtsp_auth_make_basic(serv->username, serv->password);
+                                     G_TYPE_STRING, serv->config->username, NULL);
+    serv->basic = gst_rtsp_auth_make_basic(serv->config->username, serv->config->password);
     gst_rtsp_auth_add_basic(serv->auth, serv->basic, serv->token);
     g_free(serv->basic);
     gst_rtsp_token_unref(serv->token);
@@ -109,12 +132,12 @@ int server_launch(t_server *serv) {
   g_timeout_add_seconds(2, (GSourceFunc)timeout, serv->server);
   g_timeout_add_seconds(10, (GSourceFunc)remove_sessions, serv->server);
 
-  g_print("stream ready at rtsp://");
+  g_print("Stream ready at rtsp://");
   /* start serving */
-  if (strlen(serv->username) > 0)
-    g_print("%s:%s@", serv->username, serv->password);
+  if (strlen(serv->config->username) > 0)
+    g_print("%s:%s@", serv->config->username, serv->config->password);
 
-  g_print("127.0.0.1:8554%s\n", serv->path);
+  g_print("%s:%s%s\n", serv->config->addr, serv->config->port, serv->config->route);
 
   g_main_loop_run(serv->loop);
 
@@ -134,25 +157,34 @@ int main(int argc, char *argv[]) {
   init(&serv);
 
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:p:h")) != -1)
+  while ((c = getopt(argc, argv, "r:u:p:h:i:a:b:")) != -1)
     switch (c) {
     case 'r':
       if (optarg[0] == '/')
-        serv.path = strdup(optarg);
+        serv.config->route = strdup(optarg);
       else
-        serv.path = strcat(strdup("/"), strdup(optarg));
+        serv.config->route = strcat(strdup("/"), strdup(optarg));
       break;
     case 'u':
-      serv.username = strdup(optarg);
+      serv.config->username = strdup(optarg);
       break;
     case 'p':
-      serv.password = strdup(optarg);
+      serv.config->password = strdup(optarg);
+      break;
+    case 'i':
+      serv.config->input = strdup(optarg);
+      break;
+    case 'a':
+      serv.config->addr = strdup(optarg);
+      break;
+    case 'b':
+      serv.config->port = strdup(optarg);
       break;
     case 'h':
-      fprintf(stdout, "Usage: ./etix_rtsp_server [-r route] [-u username] [-p password]\n");
+      fprintf(stdout, "Usage: ./etix_rtsp_server [-a addres] [-b port] [-r route] [-i input] [-u username] [-p password]\n");
       break;
     case '?':
-      if (optopt == 'r' || optopt == 'p' || optopt == 'u')
+      if (optopt == 'r' || optopt == 'p' || optopt == 'u' || optopt == 'i' || optopt == 'a' || optopt == 'b')
         fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       else if (isprint(optopt))
         fprintf(stderr, "Unknown option `-%c'.\n", optopt);

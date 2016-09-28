@@ -20,8 +20,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <memory>
 
 #include <gst/rtsp-server/rtsp-server.h>
+
+typedef struct s_config {
+  gchar *username;
+  gchar *password;
+  gchar *route;
+  gchar *port;
+  gchar *input;
+  gchar *addr;
+} t_config;
 
 typedef struct s_server {
   GMainLoop *loop;
@@ -31,7 +41,5 @@ typedef struct s_server {
   GstRTSPAuth *auth;
   GstRTSPToken *token;
   gchar *basic;
-  gchar *username;
-  gchar *password;
-  gchar *path;
+  std::unique_ptr<t_config> config;
 } t_server;

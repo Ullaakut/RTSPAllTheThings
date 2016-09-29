@@ -46,7 +46,6 @@ void init(t_server *serv) {
   serv->config->route = strdup("/live.sdp");
   serv->config->username = strdup("");
   serv->config->password = strdup("");
-  serv->config->addr = strdup("127.0.0.1");
   serv->config->port = strdup("8554");
   serv->config->input = strdup("");
 
@@ -61,9 +60,6 @@ void init_server_auth(t_server *serv) {
   /* get the mounts for this server, every server has a default mapper object
    * that be used to map uri mount points to media factories */
   serv->mounts = gst_rtsp_server_get_mount_points(serv->server);
-
-  /* Set the addr to bind */
-  gst_rtsp_server_set_address(serv->server, serv->config->addr);
 
   /* Set the port to bind */
   gst_rtsp_server_set_service(serv->server, serv->config->port);
@@ -124,6 +120,13 @@ void init_server_auth(t_server *serv) {
   }
 }
 
+#include <stdio.h>
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h>
+#include <string.h>
+#include <arpa/inet.h>
+
 int server_launch(t_server *serv) {
   /* attach the server to the default maincontext */
   if (gst_rtsp_server_attach(serv->server, NULL) == 0)
@@ -137,7 +140,7 @@ int server_launch(t_server *serv) {
   if (strlen(serv->config->username) > 0)
     g_print("%s:%s@", serv->config->username, serv->config->password);
 
-  g_print("%s:%s%s\n", serv->config->addr, serv->config->port, serv->config->route);
+  g_print("127.0.0.1:%s%s\n", serv->config->port, serv->config->route);
 
   g_main_loop_run(serv->loop);
 
@@ -149,6 +152,7 @@ failed : {
   return 0;
 }
 
+
 int main(int argc, char *argv[]) {
   t_server serv;
   int c;
@@ -157,7 +161,7 @@ int main(int argc, char *argv[]) {
   init(&serv);
 
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:p:h:i:a:b:")) != -1)
+  while ((c = getopt(argc, argv, "r:u:p:h:i:b:")) != -1)
     switch (c) {
     case 'r':
       if (optarg[0] == '/')
@@ -174,14 +178,11 @@ int main(int argc, char *argv[]) {
     case 'i':
       serv.config->input = strdup(optarg);
       break;
-    case 'a':
-      serv.config->addr = strdup(optarg);
-      break;
     case 'b':
       serv.config->port = strdup(optarg);
       break;
     case 'h':
-      fprintf(stdout, "Usage: ./etix_rtsp_server [-a addres] [-b port] [-r route] [-i input] [-u username] [-p password]\n");
+      fprintf(stdout, "Usage: ./etix_rtsp_server [-b port] [-r route] [-i input] [-u username] [-p password]\n");
       break;
     case '?':
       if (optopt == 'r' || optopt == 'p' || optopt == 'u' || optopt == 'i' || optopt == 'a' || optopt == 'b')

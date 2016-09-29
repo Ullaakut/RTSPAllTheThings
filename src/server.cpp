@@ -62,7 +62,7 @@ void init_server_auth(t_server *serv) {
   serv->mounts = gst_rtsp_server_get_mount_points(serv->server);
 
   /* Set the port to bind */
-  //gst_rtsp_server_set_service(serv->server, serv->config->port);
+  gst_rtsp_server_set_service(serv->server, serv->config->port);
 
   /* make a media factory for a test stream. The default media factory can use
    * gst-launch syntax to create pipelines.
@@ -80,9 +80,7 @@ void init_server_auth(t_server *serv) {
   else {
       launchCmd += "videotestsrc";
       launchCmd += " ! video/x-raw,width=352,height=288,framerate=15/1 ! "
-                   // "rtph264depay ! avdec_h264 !"
-                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! h264parse ! rtph264pay name=pay0 pt=96 "
-                  //  ""
+                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! rtph264pay name=pay0 pt=96 "
                    ")";
   }
 

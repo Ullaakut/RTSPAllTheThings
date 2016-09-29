@@ -62,7 +62,7 @@ void init_server_auth(t_server *serv) {
   serv->mounts = gst_rtsp_server_get_mount_points(serv->server);
 
   /* Set the port to bind */
-  gst_rtsp_server_set_service(serv->server, serv->config->port);
+  //gst_rtsp_server_set_service(serv->server, serv->config->port);
 
   auto &&session = gst_rtsp_session_new("WESH");
   gst_rtsp_session_prevent_expire(session);
@@ -93,9 +93,8 @@ void init_server_auth(t_server *serv) {
   }
 
   g_print("Launching stream with the following pipeline: %s\n", launchCmd.c_str());
+  gst_rtsp_media_factory_set_launch(serv->factory, launchCmd.c_str());
 
-  gst_rtsp_media_factory_set_launch(
-      serv->factory, launchCmd.c_str());
   /* attach the test factory to the given path */
   gst_rtsp_mount_points_add_factory(serv->mounts, serv->config->route, serv->factory);
 

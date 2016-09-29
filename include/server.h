@@ -30,7 +30,6 @@ typedef struct s_config {
   gchar *route;
   gchar *port;
   gchar *input;
-  gchar *addr;
 } t_config;
 
 typedef struct s_server {

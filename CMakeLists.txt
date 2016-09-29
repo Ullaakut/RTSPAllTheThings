@@ -17,7 +17,7 @@ cmake_minimum_required(VERSION 2.8.1)
 
 cmake_policy(SET CMP0042 NEW)
 
-set(PROJECT_NAME etix_rtsp_server)
+set(PROJECT_NAME camera_emulation_server)
 
 project(${PROJECT_NAME})
 
@@ -79,6 +79,6 @@ if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     link_directories (${GSTREAMER_APP_LIBRARY_DIRS})
 endif()
 
-add_executable(etix_rtsp_server "src/server.cpp")
+add_executable(camera_emulation_server "src/server.cpp")
 
-target_link_libraries (etix_rtsp_server ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS})
+target_link_libraries (camera_emulation_server ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS})

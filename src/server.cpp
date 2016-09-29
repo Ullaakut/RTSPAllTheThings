@@ -80,7 +80,9 @@ void init_server_auth(t_server *serv) {
   else {
       launchCmd += "videotestsrc";
       launchCmd += " ! video/x-raw,width=352,height=288,framerate=15/1 ! "
-                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! rtph264pay name=pay0 pt=96 "
+                   // "rtph264depay ! avdec_h264 !"
+                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! h264parse ! rtph264pay name=pay0 pt=96 "
+                  //  ""
                    ")";
   }
 
@@ -119,13 +121,6 @@ void init_server_auth(t_server *serv) {
     g_object_unref(serv->auth);
   }
 }
-
-#include <stdio.h>
-#include <sys/types.h>
-#include <ifaddrs.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <arpa/inet.h>
 
 int server_launch(t_server *serv) {
   /* attach the server to the default maincontext */

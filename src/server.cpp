@@ -64,6 +64,9 @@ void init_server_auth(t_server *serv) {
   /* Set the port to bind */
   gst_rtsp_server_set_service(serv->server, serv->config->port);
 
+  auto &&session = gst_rtsp_session_new("WESH");
+  gst_rtsp_session_prevent_expire(session);
+
   /* make a media factory for a test stream. The default media factory can use
    * gst-launch syntax to create pipelines.
    * any launch line works as long as it contains elements named pay%d. Each
@@ -80,8 +83,13 @@ void init_server_auth(t_server *serv) {
   else {
       launchCmd += "videotestsrc";
       launchCmd += " ! video/x-raw,width=352,height=288,framerate=15/1 ! "
-                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! rtph264pay name=pay0 pt=96 "
+                   // "rtph264depay ! avdec_h264 !"
+                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! h264parse ! rtph264pay name=pay0 pt=96 "
+                  //  ""
                    ")";
+//      launchCmd += " ! videoscale ! video/x-raw,width=1280,height=720 ! "
+//      "queue leaky=2 ! queue2 max-size-buffers=4 ! "
+//      "x264enc threads=0 key-int-max=25 speed-preset=superfast tune=zerolatency ! rtph264pay name=pay0 pt=96 ";
   }
 
   g_print("Launching stream with the following pipeline: %s\n", launchCmd.c_str());
@@ -120,20 +128,10 @@ void init_server_auth(t_server *serv) {
   }
 }
 
-#include <stdio.h>
-#include <sys/types.h>
-#include <ifaddrs.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <arpa/inet.h>
-
 int server_launch(t_server *serv) {
   /* attach the server to the default maincontext */
   if (gst_rtsp_server_attach(serv->server, NULL) == 0)
     goto failed;
-
-  g_timeout_add_seconds(2, (GSourceFunc)timeout, serv->server);
-  g_timeout_add_seconds(10, (GSourceFunc)remove_sessions, serv->server);
 
   g_print("Stream ready at rtsp://");
   /* start serving */

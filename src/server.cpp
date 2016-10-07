@@ -91,9 +91,8 @@ void init_server_auth(t_server *serv) {
   }
 
   g_print("Launching stream with the following pipeline: %s\n", launchCmd.c_str());
+  gst_rtsp_media_factory_set_launch(serv->factory, launchCmd.c_str());
 
-  gst_rtsp_media_factory_set_launch(
-      serv->factory, launchCmd.c_str());
   /* attach the test factory to the given path */
   gst_rtsp_mount_points_add_factory(serv->mounts, serv->config->route, serv->factory);
 
@@ -125,13 +124,6 @@ void init_server_auth(t_server *serv) {
     g_object_unref(serv->auth);
   }
 }
-
-#include <stdio.h>
-#include <sys/types.h>
-#include <ifaddrs.h>
-#include <netinet/in.h>
-#include <string.h>
-#include <arpa/inet.h>
 
 int server_launch(t_server *serv) {
   /* attach the server to the default maincontext */

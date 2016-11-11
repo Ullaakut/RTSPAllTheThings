@@ -1,7 +1,7 @@
-# CES : Camera Emulation Server 0.1.2
+# CES : Camera Emulation Server 0.1.3
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
-[![Latest release](https://img.shields.io/badge/release-0.1.2-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
+[![Latest release](https://img.shields.io/badge/release-0.1.3-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
 
 ### RTSP server with authentication for testing purposes
 
@@ -19,7 +19,7 @@
 4. `cd build`
 5. `cmake ..`
 6. `make`
-7. `Usage: ./etix_rtsp_server [-a addres] [-b port] [-r route] [-i input] [-u username] [-p password]`
+7. `Usage: ./camera_emulation_server [-a address] [-b port] [-r route] [-i input] [-u username] [-p password]`
 
 ## License
 

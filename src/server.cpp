@@ -48,7 +48,6 @@ void init(t_server *serv) {
   serv->config->password = strdup("");
   serv->config->port = strdup("8554");
   serv->config->input = strdup("");
-
 }
 
 void init_server_auth(t_server *serv) {
@@ -74,35 +73,39 @@ void init_server_auth(t_server *serv) {
   serv->factory = gst_rtsp_media_factory_new();
   std::string launchCmd = "( ";
   if (strlen(serv->config->input)) {
-      launchCmd += "multifilesrc loop=true location=";
-      launchCmd += serv->config->input;
-      launchCmd += " ! decodebin ! "
-                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! rtph264pay name=pay0 pt=96 "
-                   ")";
-  }
-  else {
-      launchCmd += "videotestsrc";
-      launchCmd += " ! video/x-raw,width=352,height=288,framerate=15/1 ! queue !"
-                   "x264enc threads=0 key-int-max=25 speed-preset=superfast ! rtph264pay name=pay0 pt=96 "
-                   ")";
-//      launchCmd += " ! videoscale ! video/x-raw,width=1280,height=720 ! "
-//      "queue leaky=2 ! queue2 max-size-buffers=4 ! "
-//      "x264enc threads=0 key-int-max=25 speed-preset=superfast tune=zerolatency ! rtph264pay name=pay0 pt=96 ";
+    launchCmd += "multifilesrc loop=true location=";
+    launchCmd += serv->config->input;
+    launchCmd += " ! decodebin ! "
+                 "x264enc threads=0 key-int-max=25 speed-preset=superfast ! "
+                 "rtph264pay name=pay0 pt=96 "
+                 ")";
+  } else {
+    launchCmd += "videotestsrc";
+    launchCmd += " ! video/x-raw,width=352,height=288,framerate=15/1 ! queue !"
+                 "x264enc threads=0 key-int-max=25 speed-preset=superfast ! "
+                 "rtph264pay name=pay0 pt=96 "
+                 ")";
+    //      launchCmd += " ! videoscale ! video/x-raw,width=1280,height=720 ! "
+    //      "queue leaky=2 ! queue2 max-size-buffers=4 ! "
+    //      "x264enc threads=0 key-int-max=25 speed-preset=superfast
+    //      tune=zerolatency ! rtph264pay name=pay0 pt=96 ";
   }
 
-  g_print("Launching stream with the following pipeline: %s\n", launchCmd.c_str());
+  g_print("Launching stream with the following pipeline: %s\n",
+          launchCmd.c_str());
   gst_rtsp_media_factory_set_launch(serv->factory, launchCmd.c_str());
 
   /* attach the test factory to the given path */
-  gst_rtsp_mount_points_add_factory(serv->mounts, serv->config->route, serv->factory);
+  gst_rtsp_mount_points_add_factory(serv->mounts, serv->config->route,
+                                    serv->factory);
 
   if (strlen(serv->config->username)) {
     /* the user can look at the media but not construct so he gets a
     * 401 Unauthorized */
     gst_rtsp_media_factory_add_role(
-        serv->factory, serv->config->username, GST_RTSP_PERM_MEDIA_FACTORY_ACCESS,
-        G_TYPE_BOOLEAN, true, GST_RTSP_PERM_MEDIA_FACTORY_CONSTRUCT,
-        G_TYPE_BOOLEAN, true, NULL);
+        serv->factory, serv->config->username,
+        GST_RTSP_PERM_MEDIA_FACTORY_ACCESS, G_TYPE_BOOLEAN, true,
+        GST_RTSP_PERM_MEDIA_FACTORY_CONSTRUCT, G_TYPE_BOOLEAN, true, NULL);
   }
   /* don't need the ref to the mapper anymore */
   g_object_unref(serv->mounts);
@@ -112,9 +115,11 @@ void init_server_auth(t_server *serv) {
     serv->auth = gst_rtsp_auth_new();
 
     /* make admin token */
-    serv->token = gst_rtsp_token_new(GST_RTSP_TOKEN_MEDIA_FACTORY_ROLE,
-                                     G_TYPE_STRING, serv->config->username, NULL);
-    serv->basic = gst_rtsp_auth_make_basic(serv->config->username, serv->config->password);
+    serv->token =
+        gst_rtsp_token_new(GST_RTSP_TOKEN_MEDIA_FACTORY_ROLE, G_TYPE_STRING,
+                           serv->config->username, NULL);
+    serv->basic = gst_rtsp_auth_make_basic(serv->config->username,
+                                           serv->config->password);
     gst_rtsp_auth_add_basic(serv->auth, serv->basic, serv->token);
     g_free(serv->basic);
     gst_rtsp_token_unref(serv->token);
@@ -147,7 +152,6 @@ failed : {
   return 0;
 }
 
-
 int main(int argc, char *argv[]) {
   t_server serv;
   int c;
@@ -156,31 +160,45 @@ int main(int argc, char *argv[]) {
   init(&serv);
 
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:p:h:i:b:")) != -1)
+  while ((c = getopt(argc, argv, "r:u:p:i:b:h")) != -1)
     switch (c) {
     case 'r':
+      if (optarg && optarg[0] == '-')
+        break;
       if (optarg[0] == '/')
         serv.config->route = strdup(optarg);
       else
         serv.config->route = strcat(strdup("/"), strdup(optarg));
       break;
     case 'u':
+      if (optarg && optarg[0] == '-')
+        break;
       serv.config->username = strdup(optarg);
       break;
     case 'p':
+      if (optarg && optarg[0] == '-')
+        break;
       serv.config->password = strdup(optarg);
       break;
     case 'i':
+      if (optarg && optarg[0] == '-')
+        break;
       serv.config->input = strdup(optarg);
       break;
     case 'b':
+      if (optarg && optarg[0] == '-')
+        break;
       serv.config->port = strdup(optarg);
       break;
     case 'h':
-      fprintf(stdout, "Usage: ./etix_rtsp_server [-b port] [-r route] [-i input] [-u username] [-p password]\n");
+      fprintf(stdout, "Usage: %s [-b port] [-r route] [-i "
+                      "input] [-u username] [-p password] [-h]\n",
+              argv[0]);
+      return 0;
       break;
     case '?':
-      if (optopt == 'r' || optopt == 'p' || optopt == 'u' || optopt == 'i' || optopt == 'a' || optopt == 'b')
+      if (optopt == 'r' || optopt == 'p' || optopt == 'u' || optopt == 'i' ||
+          optopt == 'a' || optopt == 'b')
         fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       else if (isprint(optopt))
         fprintf(stderr, "Unknown option `-%c'.\n", optopt);

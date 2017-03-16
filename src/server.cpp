@@ -48,6 +48,8 @@ void init(t_server *serv) {
   serv->config->password = strdup("");
   serv->config->port = strdup("8554");
   serv->config->input = strdup("");
+  serv->config->framerate = strdup("25");
+  serv->config->scale = std::make_pair<gchar *, gchar *>(strdup("352"), strdup("288"));
 }
 
 void init_server_auth(t_server *serv) {
@@ -81,7 +83,13 @@ void init_server_auth(t_server *serv) {
                  ")";
   } else {
     launchCmd += "videotestsrc";
-    launchCmd += " ! video/x-raw,width=352,height=288,framerate=15/1 ! queue !"
+    launchCmd += " ! video/x-raw,width=";
+    launchCmd += serv->config->scale.first;
+    launchCmd += ",height=";
+    launchCmd += serv->config->scale.second;
+    launchCmd += ",framerate=";
+    launchCmd += serv->config->framerate;
+    launchCmd +="/1 ! queue !"
                  "x264enc threads=0 key-int-max=25 speed-preset=superfast ! "
                  "rtph264pay name=pay0 pt=96 "
                  ")";
@@ -160,9 +168,9 @@ int main(int argc, char *argv[]) {
   init(&serv);
 
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:p:i:b:h")) != -1)
+  while ((c = getopt(argc, argv, "r:u:p:i:b:f:s:h")) != -1)
     switch (c) {
-    case 'r':
+    case 'r': // Route
       if (optarg && optarg[0] == '-')
         break;
       if (optarg[0] == '/')
@@ -170,35 +178,54 @@ int main(int argc, char *argv[]) {
       else
         serv.config->route = strcat(strdup("/"), strdup(optarg));
       break;
-    case 'u':
+    case 'u': // Username
       if (optarg && optarg[0] == '-')
         break;
       serv.config->username = strdup(optarg);
       break;
-    case 'p':
+    case 'p': // Password
       if (optarg && optarg[0] == '-')
         break;
       serv.config->password = strdup(optarg);
       break;
-    case 'i':
+    case 'i': // Input
       if (optarg && optarg[0] == '-')
         break;
       serv.config->input = strdup(optarg);
       break;
-    case 'b':
+    case 'b': // Port
       if (optarg && optarg[0] == '-')
         break;
       serv.config->port = strdup(optarg);
       break;
-    case 'h':
+    case 'f': // Framerate
+      if (optarg && optarg[0] == '-')
+        break;
+      serv.config->framerate = strdup(optarg);
+      break;
+    case 's': // Scale
+      {
+	if (optarg && optarg[0] == '-')
+	  break;
+	size_t pos = 0;
+	std::string scale = optarg;
+	if ((pos = scale.find("x")) == std::string::npos) {
+	  fprintf(stderr, "No x token found between width and height in the scale argument: %s\n", optarg);
+	  return -1;
+	}
+	serv.config->scale.first = strdup(scale.substr(0, pos).c_str());
+	serv.config->scale.second = strdup(scale.substr(pos + 1).c_str());
+	break;
+      }
+    case 'h': // help
       fprintf(stdout, "Usage: %s [-b port] [-r route] [-i "
-                      "input] [-u username] [-p password] [-h]\n",
+                      "input] [-u username] [-p password] [-f framerate] [-s 'width'x'height'] [-h]\n",
               argv[0]);
       return 0;
       break;
     case '?':
       if (optopt == 'r' || optopt == 'p' || optopt == 'u' || optopt == 'i' ||
-          optopt == 'a' || optopt == 'b')
+          optopt == 'a' || optopt == 'b' || optopt == 'f' || optopt == 's')
         fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       else if (isprint(optopt))
         fprintf(stderr, "Unknown option `-%c'.\n", optopt);

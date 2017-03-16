@@ -30,6 +30,8 @@ typedef struct s_config {
   gchar *route;
   gchar *port;
   gchar *input;
+  gchar *framerate;
+  std::pair<gchar *, gchar *> scale;
 } t_config;
 
 typedef struct s_server {

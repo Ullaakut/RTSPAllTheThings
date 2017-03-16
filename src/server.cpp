@@ -203,23 +203,22 @@ int main(int argc, char *argv[]) {
         break;
       serv.config->framerate = strdup(optarg);
       break;
-    case 's': // Scale
-      {
-	if (optarg && optarg[0] == '-')
-	  break;
-	size_t pos = 0;
-	std::string scale = optarg;
-	if ((pos = scale.find("x")) == std::string::npos) {
-	  fprintf(stderr, "No x token found between width and height in the scale argument: %s\n", optarg);
-	  return -1;
-	}
-	serv.config->scale.first = strdup(scale.substr(0, pos).c_str());
-	serv.config->scale.second = strdup(scale.substr(pos + 1).c_str());
+    case 's': { // Scale
+      if (optarg && optarg[0] == '-')
 	break;
+      size_t pos = 0;
+      std::string scale = optarg;
+      if ((pos = scale.find("x")) == std::string::npos) {
+	fprintf(stderr, "No x token found between width and height in the scale argument: %s\n", optarg);
+	return -1;
       }
+      serv.config->scale.first = strdup(scale.substr(0, pos).c_str());
+      serv.config->scale.second = strdup(scale.substr(pos + 1).c_str());
+      break;
+    }
     case 'h': // help
       fprintf(stdout, "Usage: %s [-b port] [-r route] [-i "
-                      "input] [-u username] [-p password] [-f framerate] [-s 'width'x'height'] [-h]\n",
+	      "input] [-u username] [-p password] [-f framerate] [-s 'width'x'height'] [-h]\n",
               argv[0]);
       return 0;
       break;

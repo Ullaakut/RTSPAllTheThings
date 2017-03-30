@@ -101,6 +101,7 @@ void init_server_auth(t_server *serv) {
 
   g_print("Launching stream with the following pipeline: %s\n",
           launchCmd.c_str());
+  gst_rtsp_media_factory_set_shared (serv->factory, TRUE);
   gst_rtsp_media_factory_set_launch(serv->factory, launchCmd.c_str());
 
   /* attach the test factory to the given path */

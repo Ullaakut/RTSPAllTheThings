@@ -19,7 +19,7 @@
 4. `cd build`
 5. `cmake ..`
 6. `make`
-7. `Usage: ./camera_emulation_server [-a address] [-b port] [-r route] [-i input] [-u username] [-p password]`
+7. `Usage: ./camera_emulation_server [-a address] [-b port] [-r route] [-i input] [-u username] [-p password] [-s 'width'x'height'] [-f framerate]`
 
 ## License
 

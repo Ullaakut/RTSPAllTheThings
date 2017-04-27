@@ -46,6 +46,7 @@ void init(t_server *serv) {
   serv->config->route = strdup("/live.sdp");
   serv->config->username = strdup("");
   serv->config->password = strdup("");
+  serv->config->address = strdup("0.0.0.0");
   serv->config->port = strdup("8554");
   serv->config->input = strdup("");
   serv->config->framerate = strdup("25");
@@ -62,7 +63,8 @@ void init_server_auth(t_server *serv) {
    * that be used to map uri mount points to media factories */
   serv->mounts = gst_rtsp_server_get_mount_points(serv->server);
 
-  /* Set the port to bind */
+  /* Set the address and port to bind */
+  gst_rtsp_server_set_address(serv->server, serv->config->address);
   gst_rtsp_server_set_service(serv->server, serv->config->port);
 
   auto &&session = gst_rtsp_session_new("WESH");
@@ -149,7 +151,7 @@ int server_launch(t_server *serv) {
   if (strlen(serv->config->username) > 0)
     g_print("%s:%s@", serv->config->username, serv->config->password);
 
-  g_print("127.0.0.1:%s%s\n", serv->config->port, serv->config->route);
+  g_print("%s:%s%s\n", serv->config->address, serv->config->port, serv->config->route);
 
   g_main_loop_run(serv->loop);
 
@@ -169,7 +171,7 @@ int main(int argc, char *argv[]) {
   init(&serv);
 
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:p:i:b:f:s:h")) != -1)
+  while ((c = getopt(argc, argv, "r:u:l:p:i:b:f:s:h")) != -1)
     switch (c) {
     case 'r': // Route
       if (optarg && optarg[0] == '-')
@@ -193,6 +195,11 @@ int main(int argc, char *argv[]) {
       if (optarg && optarg[0] == '-')
         break;
       serv.config->input = strdup(optarg);
+      break;
+    case 'l': // Listen address
+      if (optarg && optarg[0] == '-')
+        break;
+      serv.config->address = strdup(optarg);
       break;
     case 'b': // Port
       if (optarg && optarg[0] == '-')
@@ -218,13 +225,13 @@ int main(int argc, char *argv[]) {
       break;
     }
     case 'h': // help
-      fprintf(stdout, "Usage: %s [-b port] [-r route] [-i "
+      fprintf(stdout, "Usage: %s [-l address] [-b port] [-r route] [-i "
 	      "input] [-u username] [-p password] [-f framerate] [-s 'width'x'height'] [-h]\n",
               argv[0]);
       return 0;
       break;
     case '?':
-      if (optopt == 'r' || optopt == 'p' || optopt == 'u' || optopt == 'i' ||
+      if (optopt == 'r' || optopt == 'l' || optopt == 'p' || optopt == 'u' || optopt == 'i' ||
           optopt == 'a' || optopt == 'b' || optopt == 'f' || optopt == 's')
         fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       else if (isprint(optopt))

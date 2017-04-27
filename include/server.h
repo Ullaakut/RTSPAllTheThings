@@ -28,6 +28,7 @@ typedef struct s_config {
   gchar *username;
   gchar *password;
   gchar *route;
+  gchar *address;
   gchar *port;
   gchar *input;
   gchar *framerate;

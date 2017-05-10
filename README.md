@@ -23,7 +23,9 @@
 
 ## Run in debug mode
 
-   `$ export GST_DEBUG="*:3" && ./camera_emulation_server`
+   `export GST_DEBUG="*:3" && ./camera_emulation_server`
+
+Attention: Please don't send us error logs that should be sent to gstreamer instead.
 
 ## License
 

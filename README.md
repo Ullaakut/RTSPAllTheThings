@@ -21,6 +21,10 @@
 6. `make`
 7. `Usage: ./camera_emulation_server [-l address] [-b port] [-r route] [-i input] [-u username] [-p password] [-s 'width'x'height'] [-f framerate]`
 
+## Run in debug mode
+
+   `$ export GST_DEBUG="*:3" && ./camera_emulation_server`
+
 ## License
 
 Copyright 2016 Etix Labs

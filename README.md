@@ -21,11 +21,11 @@
 6. `make`
 7. `Usage: ./camera_emulation_server [-l address] [-b port] [-r route] [-i input] [-u username] [-p password] [-s 'width'x'height'] [-f framerate]`
 
-## Run in debug mode
+## Run in GStreamer debug mode
 
-   `export GST_DEBUG="*:3" && ./camera_emulation_server`
+If you're experiencing problems with CES, know that you can run it while having GStreamer in debug mode by setting the value of your `GST_DEBUG` environment variable, depending on your needs. For example, `export GST_DEBUG="*:3"` should be a high enough level of debug for most problems you might encounter.
 
-Attention: Please don't send us error logs that should be sent to gstreamer instead.
+For more information on GST_DEBUG, check [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gst-running.html)
 
 ## License
 

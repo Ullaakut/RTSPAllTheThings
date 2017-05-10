@@ -10,6 +10,7 @@
 * cmake (`cmake`)
 * glib-2.0
 * libgstrtspserver-1.0-dev
+* gstreamer1.0-plugins-ugly
 * [gstreamer 1.8 or later](https://github.com/GStreamer/gstreamer)
 
 ## Step-by-step installation

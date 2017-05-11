@@ -29,7 +29,7 @@ docker run \
        [-e RTSP_LISTEN_ADDRESS=your_listen_address] \
        [-e RTSP_PORT=your_port] -p your_port:your_port \
        [-e RTSP_PATH=your_path] \
-       [-e RTSP_INPUT_STREAM=your_input_stream] \
+       [-e RTSP_INPUT_FILE=your_input_file] \
        [-e RTSP_USERNAME=your_username] \
        [-e RTSP_PASSWORD=your_password] \
        [-e RTSP_RESOLUTION='your_width'x'your_height'] \
@@ -44,7 +44,7 @@ All of these options override the default parameters for CES
 * `your_listen_address`: The address you want your server to listen on [default: `0.0.0.0`]
 * `your_port`: The port that you want your server to listen on [default: `8554`] _Don't forget to also expose the port in your container with the -p option like in the example above_
 * `your_path`: The rtsp path at which you want your stream to be served [default: `/live.sdp`]
-* `your_input_stream`: The stream you want to broadcast using CES [default: none]
+* `your_input_file`: The video file you want to broadcast using CES [default: none]
 * `your_username`: If you want to enable security on your stream, using this option will allow you to specify the username required to access your stream [default: none]
 * `your_password`: If you want to enable security on your stream, using this option will allow you to specify the password required to access your stream [default: none]
 * `'your_width'x'your_height'`: The resolution at which you want to stream [default: `352x288`]

@@ -59,7 +59,7 @@ void init(t_server *serv) {
   else
     serv->config->password = strdup("");
 
-  if (const char *input = std::getenv("RTSP_INPUT_STREAM"))
+  if (const char *input = std::getenv("RTSP_INPUT_FILE"))
     serv->config->input = strdup(input);
   else
     serv->config->input = strdup("");

@@ -21,6 +21,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <memory>
+#include <cstdlib>
 
 #include <gst/rtsp-server/rtsp-server.h>
 

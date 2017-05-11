@@ -30,3 +30,7 @@
 
 # Debug files
 *.dSYM/
+
+# Build artifacts
+build/
+camera_emulation_server

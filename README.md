@@ -1,36 +1,33 @@
-# CES : Camera Emulation Server 0.1.3
+# CES : Camera Emulation Server 1.0.0
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
-[![Latest release](https://img.shields.io/badge/release-0.1.3-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
+[![Latest release](https://img.shields.io/badge/release-1.0.0-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
 
 ### RTSP server with authentication for testing purposes
 
 ## Dependencies
 
-* cmake (`cmake`)
-* glib-2.0
-* libgstrtspserver-1.0-dev
-* gstreamer1.0-plugins-ugly
-* [gstreamer 1.8 or later](https://github.com/GStreamer/gstreamer)
+* `docker`
 
-## Step-by-step installation
+## Using the CES docker image
 1. `git clone git@github.com:EtixLabs/CES.git`
 2. `cd CES`
-3. `mkdir build`
-4. `cd build`
-5. `cmake ..`
-6. `make`
-7. `Usage: ./camera_emulation_server [-l address] [-b port] [-r route] [-i input] [-u username] [-p password] [-s 'width'x'height'] [-f framerate]`
+3. `docker run [-e RTSP_LISTEN_ADDRESS=your_listen_address] [-e RTSP_PORT=your_port -p your_port:your_port] [-e RTSP_PATH=your_path] [-e RTSP_INPUT_STREAM=your_input_stream] [-e RTSP_USERNAME=your_username] [-e RTSP_PASSWORD=your_password] [-e RTSP_RESOLUTION='your_width'x'your_height'] [-e RTSP_FRAMERATE=your_framerate] [-e GST_DEBUG=your_debug_level] ullaakut/CES`
 
-## Run in GStreamer debug mode
-
-If you're experiencing problems with CES, know that you can run it while having GStreamer in debug mode by setting the value of your `GST_DEBUG` environment variable, depending on your needs. For example, `export GST_DEBUG="*:3"` should be a high enough level of debug for most problems you might encounter.
-
-For more information on GST_DEBUG, check [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gst-running.html)
+All of these options override the default parameters for CES
+* `your_listen_address`: The address you want your server to listen on [default: `0.0.0.0`]
+* `your_port`: The port that you want your server to listen on [default: `8554`] _Don't forget to also expose the port in your container with the -p option like in the example above_
+* `your_path`: The rtsp path at which you want your stream to be served [default: `/live.sdp`]
+* `your_input_stream`: The stream you want to broadcast using CES [default: none]
+* `your_username`: If you want to enable security on your stream, using this option will allow you to specify the username required to access your stream [default: none]
+* `your_password`: If you want to enable security on your stream, using this option will allow you to specify the password required to access your stream [default: none]
+* `'your_width'x'your_height'`: The resolution at which you want to stream [default: `352x288`]
+* `your_framerate`: The desired output framerate for your stream [default: `25`]
+* `your_debug_level`: The desired debug level for GStreamer [default: none] _See [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gst-running.html) for more information on this variable_
 
 ## License
 
-Copyright 2016 Etix Labs
+Copyright 2017 Etix Labs
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

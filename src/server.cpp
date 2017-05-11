@@ -43,14 +43,62 @@ static gboolean timeout(GstRTSPServer *server) {
 void init(t_server *serv) {
   /* Set default values for our config */
   serv->config = std::make_unique<t_config>();
-  serv->config->route = strdup("/live.sdp");
-  serv->config->username = strdup("");
-  serv->config->password = strdup("");
-  serv->config->address = strdup("0.0.0.0");
-  serv->config->port = strdup("8554");
-  serv->config->input = strdup("");
-  serv->config->framerate = strdup("25");
-  serv->config->scale = std::make_pair<gchar *, gchar *>(strdup("352"), strdup("288"));
+
+  if (const char *route = std::getenv("RTSP_PATH"))
+    serv->config->route = strdup(route);
+  else
+    serv->config->route = strdup("/live.sdp");
+
+  if (const char *username = std::getenv("RTSP_USERNAME"))
+    serv->config->username = strdup(username);
+  else
+    serv->config->username = strdup("");
+
+  if (const char *password = std::getenv("RTSP_PASSWORD"))
+    serv->config->password = strdup(password);
+  else
+    serv->config->password = strdup("");
+
+  if (const char *input = std::getenv("RTSP_INPUT_STREAM"))
+    serv->config->input = strdup(input);
+  else
+    serv->config->input = strdup("");
+
+  if (const char *scale = std::getenv("RTSP_RESOLUTION")) {
+    size_t pos = 0;
+    std::string scale_str(scale);
+
+    if ((pos = scale_str.find("x")) == std::string::npos) {
+      fprintf(stderr,
+              "No x token found between width and height in the scale "
+              "argument: %s\nUsing default values instead",
+              scale);
+      serv->config->scale =
+          std::make_pair<gchar *, gchar *>(strdup("352"), strdup("288"));
+    } else {
+      serv->config->scale = std::make_pair<gchar *, gchar *>(
+          strdup(scale_str.substr(0, pos).c_str()),
+          strdup(scale_str.substr(pos + 1).c_str()));
+    }
+  } else {
+    serv->config->scale =
+        std::make_pair<gchar *, gchar *>(strdup("352"), strdup("288"));
+  }
+
+  if (const char *framerate = std::getenv("RTSP_FRAMERATE"))
+    serv->config->framerate = strdup(framerate);
+  else
+    serv->config->framerate = strdup("25");
+
+  if (const char *address = std::getenv("RTSP_LISTEN_ADDRESS"))
+    serv->config->address = strdup(address);
+  else
+    serv->config->address = strdup("0.0.0.0");
+
+  if (const char *port = std::getenv("RTSP_LISTEN_PORT"))
+    serv->config->port = strdup(port);
+  else
+    serv->config->port = strdup("8554");
 }
 
 void init_server_auth(t_server *serv) {
@@ -91,7 +139,7 @@ void init_server_auth(t_server *serv) {
     launchCmd += serv->config->scale.second;
     launchCmd += ",framerate=";
     launchCmd += serv->config->framerate;
-    launchCmd +="/1 ! queue !"
+    launchCmd += "/1 ! queue !"
                  "x264enc threads=0 key-int-max=25 speed-preset=superfast ! "
                  "rtph264pay name=pay0 pt=96 "
                  ")";
@@ -103,7 +151,7 @@ void init_server_auth(t_server *serv) {
 
   g_print("Launching stream with the following pipeline: %s\n",
           launchCmd.c_str());
-  gst_rtsp_media_factory_set_shared (serv->factory, TRUE);
+  gst_rtsp_media_factory_set_shared(serv->factory, TRUE);
   gst_rtsp_media_factory_set_launch(serv->factory, launchCmd.c_str());
 
   /* attach the test factory to the given path */
@@ -112,7 +160,7 @@ void init_server_auth(t_server *serv) {
 
   if (strlen(serv->config->username)) {
     /* the user can look at the media but not construct so he gets a
-    * 401 Unauthorized */
+     * 401 Unauthorized */
     gst_rtsp_media_factory_add_role(
         serv->factory, serv->config->username,
         GST_RTSP_PERM_MEDIA_FACTORY_ACCESS, G_TYPE_BOOLEAN, true,
@@ -151,7 +199,8 @@ int server_launch(t_server *serv) {
   if (strlen(serv->config->username) > 0)
     g_print("%s:%s@", serv->config->username, serv->config->password);
 
-  g_print("%s:%s%s\n", serv->config->address, serv->config->port, serv->config->route);
+  g_print("%s:%s%s\n", serv->config->address, serv->config->port,
+          serv->config->route);
 
   g_main_loop_run(serv->loop);
 
@@ -213,26 +262,32 @@ int main(int argc, char *argv[]) {
       break;
     case 's': { // Scale
       if (optarg && optarg[0] == '-')
-	break;
+        break;
       size_t pos = 0;
       std::string scale = optarg;
       if ((pos = scale.find("x")) == std::string::npos) {
-	fprintf(stderr, "No x token found between width and height in the scale argument: %s\n", optarg);
-	return -1;
+        fprintf(stderr,
+                "No x token found between width and height in the scale "
+                "argument: %s\n",
+                optarg);
+        return -1;
       }
       serv.config->scale.first = strdup(scale.substr(0, pos).c_str());
       serv.config->scale.second = strdup(scale.substr(pos + 1).c_str());
       break;
     }
     case 'h': // help
-      fprintf(stdout, "Usage: %s [-l address] [-b port] [-r route] [-i "
-	      "input] [-u username] [-p password] [-f framerate] [-s 'width'x'height'] [-h]\n",
+      fprintf(stdout,
+              "Usage: %s [-l address] [-b port] [-r route] [-i "
+              "input] [-u username] [-p password] [-f framerate] [-s "
+              "'width'x'height'] [-h]\n",
               argv[0]);
       return 0;
       break;
     case '?':
-      if (optopt == 'r' || optopt == 'l' || optopt == 'p' || optopt == 'u' || optopt == 'i' ||
-          optopt == 'a' || optopt == 'b' || optopt == 'f' || optopt == 's')
+      if (optopt == 'r' || optopt == 'l' || optopt == 'p' || optopt == 'u' ||
+          optopt == 'i' || optopt == 'a' || optopt == 'b' || optopt == 'f' ||
+          optopt == 's')
         fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       else if (isprint(optopt))
         fprintf(stderr, "Unknown option `-%c'.\n", optopt);

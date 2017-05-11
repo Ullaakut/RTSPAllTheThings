@@ -11,13 +11,32 @@
 
 ## Examples of use
 
-To create a simple test stream, just launch `docker run -p 8554:8554 ullaakut/CES` and access it on the URL `rtsp://0.0.0.0:8554/live.sdp`
+To create a simple test stream, just launch the following command: 
+`docker run -p 8554:8554 ullaakut/CES`
 
-To create a test stream with credentials, just add the RTSP_PASSWORD and RTSP_USERNAME arguments like so : `docker run -p 8554:8554 -e RTSP_PASSWORD=mypass -e RTSP_USERNAME=myusername` and then access it on the URL `rtsp://myusername:mypass@0.0.0.0:8554/live.sdp`.
+You can now access it on the URL `rtsp://0.0.0.0:8554/live.sdp`.
+
+To create a test stream with credentials, just add the RTSP_PASSWORD and RTSP_USERNAME arguments like so:
+
+`docker run -p 8554:8554 -e RTSP_PASSWORD=mypass -e RTSP_USERNAME=myusername`
+
+You can now access it on the URL `rtsp://myusername:mypass@0.0.0.0:8554/live.sdp`.
 
 ### Usage
 
-`docker run [-e RTSP_LISTEN_ADDRESS=your_listen_address] [-e RTSP_PORT=your_port -p your_port:your_port] [-e RTSP_PATH=your_path] [-e RTSP_INPUT_STREAM=your_input_stream] [-e RTSP_USERNAME=your_username] [-e RTSP_PASSWORD=your_password] [-e RTSP_RESOLUTION='your_width'x'your_height'] [-e RTSP_FRAMERATE=your_framerate] [-e GST_DEBUG=your_debug_level] ullaakut/CES`
+```
+docker run \
+       [-e RTSP_LISTEN_ADDRESS=your_listen_address] \
+       [-e RTSP_PORT=your_port] -p your_port:your_port \
+       [-e RTSP_PATH=your_path] \
+       [-e RTSP_INPUT_STREAM=your_input_stream] \
+       [-e RTSP_USERNAME=your_username] \
+       [-e RTSP_PASSWORD=your_password] \
+       [-e RTSP_RESOLUTION='your_width'x'your_height'] \
+       [-e RTSP_FRAMERATE=your_framerate] \
+       [-e GST_DEBUG=your_debug_level] \
+       ullaakut/CES
+```
 
 ### Parameters
 

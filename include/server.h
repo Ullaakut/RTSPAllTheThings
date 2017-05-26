@@ -14,16 +14,8 @@
 
 #pragma once
 
-#include <ctype.h>
-#include <gst/gst.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <memory>
-#include <cstdlib>
-
 #include <gst/rtsp-server/rtsp-server.h>
+#include <memory>
 
 typedef struct s_config {
   gchar *username;
@@ -44,5 +36,11 @@ typedef struct s_server {
   GstRTSPAuth *auth;
   GstRTSPToken *token;
   gchar *basic;
-  std::unique_ptr<t_config> config;
+  std::shared_ptr<t_config> config;
 } t_server;
+
+void init(t_server *serv);
+int parse_args(std::shared_ptr<t_config> config, int argc, char **argv);
+void parse_env(std::shared_ptr<t_config> config);
+void init_server_auth(t_server *serv);
+int server_launch(t_server *serv);

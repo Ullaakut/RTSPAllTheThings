@@ -41,8 +41,8 @@ All of these environment variables override the default parameters for CES
 
 ```
 docker run \
-       [-e RTSP_LISTEN_ADDRESS=your_address] \
-       [-e RTSP_LISTEN_PORT=your_port] -p your_port:your_port \
+       [-e RTSP_ADDRESS=your_address] \
+       [-e RTSP_PORT=your_port] -p your_port:your_port \
        [-e RTSP_ROUTE=your_route] \
        [-e RTSP_INPUT_FILE=your_input_file] \
        [-e RTSP_USERNAME=your_username] \

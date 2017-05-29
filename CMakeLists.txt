@@ -16,7 +16,7 @@
 cmake_minimum_required(VERSION 2.8.1)
 cmake_policy(SET CMP0042 NEW)
 
-set(PROJECT_NAME camera_emulation_server)
+set(PROJECT_NAME ces)
 
 project(${PROJECT_NAME})
 
@@ -96,6 +96,6 @@ if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
 endif()
 
 find_sources("src" "include")
-add_executable (camera_emulation_server ${HEADERS} ${SOURCES})
+add_executable (ces ${HEADERS} ${SOURCES})
 
-target_link_libraries (camera_emulation_server ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS})
+target_link_libraries (ces ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS})

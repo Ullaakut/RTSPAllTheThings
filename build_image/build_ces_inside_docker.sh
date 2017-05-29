@@ -10,4 +10,4 @@ cmake ../CES
 make
 
 # mv CES bin to mounted dir
-mv camera_emulation_server ../CES
+mv ces ../CES

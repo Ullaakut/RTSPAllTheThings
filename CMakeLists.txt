@@ -14,12 +14,27 @@
 
 # min config
 cmake_minimum_required(VERSION 2.8.1)
-
 cmake_policy(SET CMP0042 NEW)
 
-set(PROJECT_NAME camera_emulation_server)
+set(PROJECT_NAME ces)
 
 project(${PROJECT_NAME})
+
+# function to retrieve files sources inside a list of folders
+function(find_sources DIRS)
+  set(_headers "")
+  set(_srcs "")
+  foreach (dir ${ARGV})
+    file (GLOB_RECURSE h_${dir} "${dir}/*.h" "${dir}/*.ipp" "${dir}/*.hpp")
+    file (GLOB_RECURSE s_${dir} "${dir}/*.cpp" "${dir}/*.c" "${dir}/*.cxx")
+    source_group (${dir} FILES ${s_${dir}} ${h_${dir}})
+    set (_srcs ${_srcs} ${s_${dir}})
+    set (_headers ${_headers} ${h_${dir}})
+  endforeach ()
+  set (SOURCES ${_srcs} PARENT_SCOPE)
+  set (HEADERS ${_headers} PARENT_SCOPE)
+endfunction()
+
 
 # Cmake properties
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -64,6 +79,7 @@ include_directories (
         "${GST_RTSP_SERVER_INCLUDE_DIRS}"
 )
 
+
 link_directories (
   "${GSTREAMER_LIBRARY_DIRS}"
   "${GST_RTSP_SERVER_LIBRARY_DIRS}"
@@ -79,6 +95,7 @@ if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
     link_directories (${GSTREAMER_APP_LIBRARY_DIRS})
 endif()
 
-add_executable(camera_emulation_server "src/server.cpp")
+find_sources("src" "include")
+add_executable (ces ${HEADERS} ${SOURCES})
 
-target_link_libraries (camera_emulation_server ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS})
+target_link_libraries (ces ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS})

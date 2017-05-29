@@ -1,7 +1,7 @@
-# CES : Camera Emulation Server 1.0.1
+# CES : Camera Emulation Server 1.1.0
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
-[![Latest release](https://img.shields.io/badge/release-1.0.0-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
+[![Latest release](https://img.shields.io/badge/release-1.1.0-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
 
 ### RTSP server with authentication for testing purposes
 
@@ -14,19 +14,24 @@
 You can create a stream by launching the official docker image: 
 `docker run --rm -p 8554:8554 ullaakut/ces`
 
-## Build and tweak yourself
-
-You can tweak CES and create your own docker image. For this simply run: 
-`./build.sh`
-
-Then launch it with:
-`docker run --rm -p 8554:8554 ces`
-
-## Read the stream
-
 With default options, stream will be available at `rtsp://0.0.0.0:8554/live.sdp`
+You can [override options](#override-options)
 
 ## Override options
+
+```
+docker run --rm \
+       [-e RTSP_ADDRESS=your_address] \
+       [-e RTSP_PORT=your_port] -p your_port:your_port \
+       [-e RTSP_ROUTE=your_route] \
+       [-e RTSP_INPUT_FILE=your_input_file] \
+       [-e RTSP_USERNAME=your_username] \
+       [-e RTSP_PASSWORD=your_password] \
+       [-e RTSP_RESOLUTION='your_width'x'your_height'] \
+       [-e RTSP_FRAMERATE=your_framerate] \
+       [-e GST_DEBUG=your_debug_level] \
+       ullaakut/ces
+```
 
 All of these environment variables override the default parameters for CES
 * `RTSP_ADDRESS`: The address you want your server to listen on [default: `0.0.0.0`]
@@ -39,19 +44,16 @@ All of these environment variables override the default parameters for CES
 * `RTSP_FRAMERATE`: The desired output framerate for your stream [default: `25`]
 * `GST_DEBUG`: The desired debug level for GStreamer [default: none] _See [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gst-running.html) for more information on this variable_
 
-```
-docker run \
-       [-e RTSP_ADDRESS=your_address] \
-       [-e RTSP_PORT=your_port] -p your_port:your_port \
-       [-e RTSP_ROUTE=your_route] \
-       [-e RTSP_INPUT_FILE=your_input_file] \
-       [-e RTSP_USERNAME=your_username] \
-       [-e RTSP_PASSWORD=your_password] \
-       [-e RTSP_RESOLUTION='your_width'x'your_height'] \
-       [-e RTSP_FRAMERATE=your_framerate] \
-       [-e GST_DEBUG=your_debug_level] \
-       ullaakut/CES
-```
+## Build and tweak yourself
+
+You can tweak CES and create your own docker image. For this simply run: 
+`./build.sh`
+
+Then launch it with:
+`docker run --rm -p 8554:8554 ces`
+
+With default options, stream will be available at `rtsp://0.0.0.0:8554/live.sdp`
+You can [override options](#override-options)
 
 ### Parameters
 

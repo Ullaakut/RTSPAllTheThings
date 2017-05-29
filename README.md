@@ -12,7 +12,7 @@
 ## Usage from the official docker repository
 
 You can create a stream by launching the official docker image: 
-`docker run --rm -p 8554:8554 ullaakut/camera_emulation_server`
+`docker run --rm -p 8554:8554 ullaakut/ces`
 
 ## Build and tweak yourself
 
@@ -20,7 +20,7 @@ You can tweak CES and create your own docker image. For this simply run:
 `./build.sh`
 
 Then launch it with:
-`docker run --rm -p 8554:8554 camera_emulation_server`
+`docker run --rm -p 8554:8554 ces`
 
 ## Read the stream
 

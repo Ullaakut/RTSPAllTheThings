@@ -15,7 +15,7 @@ You can create a stream by launching the official docker image:
 `docker run --rm -p 8554:8554 ullaakut/ces`
 
 With default options, stream will be available at `rtsp://0.0.0.0:8554/live.sdp`
-You can [override options](#override-options)
+You can use [override options](#override-options)
 
 ## Override options
 
@@ -53,7 +53,7 @@ Then launch it with:
 `docker run --rm -p 8554:8554 ces`
 
 With default options, stream will be available at `rtsp://0.0.0.0:8554/live.sdp`
-You can [override options](#override-options)
+You can use [override options](#override-options)
 
 ### Parameters
 

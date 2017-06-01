@@ -1,6 +1,7 @@
 # CES : Camera Emulation Server 1.1.0
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
+[![Docker Pulls](https://img.shields.io/docker/pulls/ullaakut/ces.svg?style=flat)](https://hub.docker.com/r/ullaakut/ces/)
 [![Latest release](https://img.shields.io/badge/release-1.1.0-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
 
 ### RTSP server with authentication for testing purposes

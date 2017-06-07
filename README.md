@@ -25,29 +25,32 @@ docker run --rm \
        [-e RTSP_ADDRESS=your_address] \
        [-e RTSP_PORT=your_port] -p your_port:your_port \
        [-e RTSP_ROUTE=your_route] \
-       [-e RTSP_INPUT_FILE=your_input_file] \
        [-e RTSP_USERNAME=your_username] \
        [-e RTSP_PASSWORD=your_password] \
        [-e RTSP_RESOLUTION='your_width'x'your_height'] \
        [-e RTSP_FRAMERATE=your_framerate] \
+       [-e INPUT=your_input] \
        [-e GST_DEBUG=your_debug_level] \
        ullaakut/ces
 ```
 
-All of these environment variables override the default parameters for CES
-* `RTSP_ADDRESS`: The address you want your server to listen on [default: `0.0.0.0`]
-* `RTSP_PORT`: The port that you want your server to listen on [default: `8554`] _Don't forget to also expose the port in your container with the -p option like in the example above_
-* `RTSP_ROUTE`: The rtsp route at which you want your stream to be served [default: `/live.sdp`]
-* `RTSP_INPUT_FILE`: The video file you want to broadcast using CES [default: none]
-* `RTSP_USERNAME`: If you want to enable security on your stream, using this option will allow you to specify the username required to access your stream [default: none]
-* `RTSP_PASSWORD`: If you want to enable security on your stream, using this option will allow you to specify the password required to access your stream [default: none]
-* `RTSP_RESOLUTION`: The resolution at which you want to stream [default: `352x288`]
-* `RTSP_FRAMERATE`: The desired output framerate for your stream [default: `25`]
+All of these environment variables | command line arguments override the default parameters for CES
+* `RTSP_ADDRESS` | -l : The address you want your server to listen on [default: `0.0.0.0`]
+* `RTSP_PORT` | -b : The port that you want your server to listen on [default: `8554`] _Don't forget to also expose the port in your container with the -p option like in the example above_
+* `RTSP_ROUTE` | -r : The rtsp route at which you want your stream to be served [default: `/live.sdp`]
+* `RTSP_USERNAME` | -u : If you want to enable security on your stream, using this option will allow you to specify the username required to access your stream [default: none]
+* `RTSP_PASSWORD` | -p : If you want to enable security on your stream, using this option will allow you to specify the password required to access your stream [default: none]
+* `RTSP_RESOLUTION` | -s : The resolution at which you want to stream [default: `1280x720`] - CES will have to do encoding
+* `RTSP_FRAMERATE` | -f : The desired output framerate for your stream [default: `25`] - CES will have to do encoding
+* `INPUT` | -i : Input use as source. [default: videotestsrc with smtpe pattern] Parsed according to the syntax:
+- "rtsp:" -> rtsp stream
+- "pattern:" -> videotestsrc pattern _See [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-plugins/html/gst-plugins-base-plugins-videotestsrc.html#GstVideoTestSrcPattern) for more information on this variable_
+- Non matching pattern -> file
 * `GST_DEBUG`: The desired debug level for GStreamer [default: none] _See [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gst-running.html) for more information on this variable_
 
-## Build and tweak yourself
+## Contribute
 
-You can tweak CES and create your own docker image. For this simply run: 
+You can modify CES and create your own docker image. For this simply run:
 `./build.sh`
 
 Then launch it with:

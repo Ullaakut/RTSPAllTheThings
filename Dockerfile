@@ -6,6 +6,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ADD ces /
+ADD rtspatt /
 EXPOSE 8554
-ENTRYPOINT ["/ces"]
+ENTRYPOINT ["/rtspatt"]

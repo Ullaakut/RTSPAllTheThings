@@ -20,9 +20,9 @@
 
 // Take raw, change caps according to conf and transcode in h264
 std::string encode(std::shared_ptr<t_config> config) {
-  std::cout << "H264 encoding with: " << std::endl
-            << "Framerate : " << config->framerate << std::endl
-            << "Resolution: " << config->scale.first << "x"
+  std::cout << "H264 encoding with:" << std::endl
+            << "Framerate:\t" << config->framerate << std::endl
+            << "Resolution:\t" << config->scale.first << "x"
             << config->scale.second << std::endl
             << std::endl;
 

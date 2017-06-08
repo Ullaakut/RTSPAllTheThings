@@ -9,6 +9,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ADD build_image/build_ces_inside_docker.sh /usr/local/bin/build_ces.sh
+ADD build_image/build_rtspatt_inside_docker.sh /usr/local/bin/build_rtspatt.sh
 
-CMD build_ces.sh
+CMD build_rtspatt.sh

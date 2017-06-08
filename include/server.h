@@ -62,5 +62,8 @@ void parse_env(std::shared_ptr<t_config> config);
 // Server
 void server_init(t_server *serv);
 int server_launch(t_server *serv);
+// Print
+void print_logo();
+void print_name();
 // Pipeline
 std::string create_pipeline(std::shared_ptr<t_config> config);

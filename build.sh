@@ -3,11 +3,11 @@
 set -e
 set -x
 
-rm -f ces
+rm -f rtspatt
 
 # Build binary
-docker build -f build_image/Dockerfile-build -t "build-ces" .
-docker run --rm -v $PWD:/tmp/CES -w/tmp/CES build-ces
+docker build -f build_image/Dockerfile-build -t "build-rtspatt" .
+docker run --rm -v $PWD:/tmp/RTSPATT -w/tmp/RTSPATT build-rtspatt
 
 # Build image
-docker build -t "ces" .
+docker build -t "rtspatt" .

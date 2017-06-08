@@ -1,8 +1,8 @@
-# CES : Camera Emulation Server 1.1.0
+# RTSPATT : RTSP All The Things 1.1.0
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
-[![Docker Pulls](https://img.shields.io/docker/pulls/ullaakut/ces.svg?style=flat)](https://hub.docker.com/r/ullaakut/ces/)
-[![Latest release](https://img.shields.io/badge/release-1.1.0-green.svg)](https://github.com/EtixLabs/CES/releases/latest)
+[![Docker Pulls](https://img.shields.io/docker/pulls/ullaakut/rtspatt.svg?style=flat)](https://hub.docker.com/r/ullaakut/rtspatt/)
+[![Latest release](https://img.shields.io/badge/release-1.1.0-green.svg)](https://github.com/EtixLabs/RTSPAllTheThings/releases/latest)
 
 ### A multipurpose RTSP media server that can simulate RTSP cameras, broadcast RTSP streams and even create test videos or serve video files.
 
@@ -13,7 +13,7 @@
 ## Usage from the official docker repository
 
 You can create a stream by launching the official docker image:
-`docker run --rm -p 8554:8554 ullaakut/ces`
+`docker run --rm -p 8554:8554 ullaakut/rtspatt`
 
 With default options, stream will be available at `rtsp://0.0.0.0:8554/live.sdp`.
 You can use [override options](#override-options).
@@ -31,11 +31,11 @@ docker run --rm \
        [-e RTSP_FRAMERATE=your_framerate] \
        [-e INPUT=your_input] \
        [-e GST_DEBUG=your_debug_level] \
-       ullaakut/ces
+       ullaakut/rtspatt
 ```
 
 ```
-./ces \
+./rtspatt \
       [-l rtsp_address] \
       [-b rtsp_port] \
       [-r rtsp_route] \
@@ -46,7 +46,7 @@ docker run --rm \
       [-i input]
 ```
 
-To have GStreamer debug while using the binary, simply run `export GST_DEBUG=your_debug_level` before using ces.
+To have GStreamer debug while using the binary, simply run `export GST_DEBUG=your_debug_level` before using RTSP All The Things.
 
 All of these environment variables and command line arguments override the default parameters:
 * `RTSP_ADDRESS` | `-l`:
@@ -60,9 +60,9 @@ All of these environment variables and command line arguments override the defau
 * `RTSP_PASSWORD` | `-p`:
   If you want to enable security on your stream, using this option will allow you to specify the password required to access your stream [default: none]
 * `RTSP_RESOLUTION` | `-s`:
-  The resolution at which you want to stream [default: `1280x720`] - CES will have to do encoding to resize the stream (CPU usage)
+  The resolution at which you want to stream [default: `1280x720`] - RTSPATT will have to do encoding to resize the stream (CPU usage)
 * `RTSP_FRAMERATE` | `-f`:
-  The desired output framerate for your stream [default: `25`] - CES will have to do encoding to change the framerate (CPU usage)
+  The desired output framerate for your stream [default: `25`] - RTSPATT will have to do encoding to change the framerate (CPU usage)
 * `INPUT` | `-i`:
   Input used as video source. [default: `pattern:smtpe`]
   - If the argument starts with `rtsp://` it will try to open it as an **RTSP stream**
@@ -75,25 +75,25 @@ All of these environment variables and command line arguments override the defau
 
 > Launch an RTSP stream on `rtsp://0.0.0.0:8554/live.sdp` with a snow pattern and a resolution of 960x600 pixels:
 
-`docker run --rm -e INPUT="pattern:snow" -e RTSP_RESOLUTION=960x600 ullaakut/ces` or `./ces -i pattern:snow -s 960x600`
+`docker run --rm -e INPUT="pattern:snow" -e RTSP_RESOLUTION=960x600 ullaakut/rtspatt` or `./rtspatt -i pattern:snow -s 960x600`
 
 > Broadcast a camera's stream and change its framerate to 12 frames per second:
 
-`docker run --rm -e INPUT="rtsp://root:root@camera_ip:554/live.sdp" -e RTSP_FRAMERATE=12 ullaakut/ces` or `./ces -i rtsp://root:root@camera_ip:554/live.sdp -f 12`
+`docker run --rm -e INPUT="rtsp://root:root@camera_ip:554/live.sdp" -e RTSP_FRAMERATE=12 ullaakut/rtspatt` or `./rtspatt -i rtsp://root:root@camera_ip:554/live.sdp -f 12`
 
 > Serve a video file on a specific address and route:
 
-`docker run --rm -e INPUT="/tmp/video.avi" -e RTSP_ADDRESS=172.100.100.12 -e RTSP_PORT=18554 -v "/path/to/your/video:/tmp/video.avi" ullaakut/ces` or `./ces -i /tmp/video.avi -l 172.100.100.12 -b 18554`
+`docker run --rm -e INPUT="/tmp/video.avi" -e RTSP_ADDRESS=172.100.100.12 -e RTSP_PORT=18554 -v "/path/to/your/video:/tmp/video.avi" ullaakut/rtspatt` or `./rtspatt -i /tmp/video.avi -l 172.100.100.12 -b 18554`
 
 ## Build
 
-You can modify CES and create your own docker image. For this simply run:
+You can modify RTSPATT and create your own docker image. For this simply run:
 `./build.sh`
 
-This script will use a docker image that has all the necessary dependencies to build the solution, and will output the binary once it's ready. It will also use this to build the CES docker image itself.
+This script will use a docker image that has all the necessary dependencies to build the solution, and will output the binary once it's ready. It will also use this to build the RTSPATT docker image itself.
 
-Once it's done, you can launch CES with:
-`docker run --rm -p 8554:8554 ces` or `./ces`.
+Once it's done, you can launch RTSPATT with:
+`docker run --rm -p 8554:8554 rtspatt` or `./rtspatt`.
 
 With default options, stream will be available at `rtsp://0.0.0.0:8554/live.sdp`.
 You can use [override options](#override-options).

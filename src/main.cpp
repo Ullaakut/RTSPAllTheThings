@@ -24,21 +24,19 @@ void signal_handler(int signal) {
 
 void dump_config(std::shared_ptr<t_config> config) {
   // Server config
-  std::cout << "Server config dump: " << std::endl
-            << "Address: " << config->address << std::endl
-            << "Port: " << config->port << std::endl
-            << "Route: " << config->route << std::endl
-            << "Username: " << config->username << std::endl
-            << "Password: " << config->password << std::endl
+  std::cout << "Server configuration:" << std::endl
+            << "Address:\t" << config->address << std::endl
+            << "Port:\t\t" << config->port << std::endl
+            << "Route:\t\t" << config->route << std::endl
+            << "Username:\t" << config->username << std::endl
+            << "Password:\t" << config->password << std::endl
             << std::endl;
 
   // Input
-  if (not config->input.empty()) {
-    std::cout << "Input: " << config->input << std::endl << std::endl;
-  } else {
-    std::cout << "Input: videotestsrc with smtpe pattern" << std::endl
-              << std::endl;
-  }
+  std::cout << "Input:\t\t";
+  config->input.empty() ? std::cout << "pattern:smpte"
+                        : std::cout << config->input;
+  std::cout << std::endl << std::endl;
 }
 
 int main(int argc, char **argv) {
@@ -57,6 +55,8 @@ int main(int argc, char **argv) {
     return -1;
   }
 
+  print_logo();
+  print_name();
   dump_config(config);
 
   /* Init and launch server */

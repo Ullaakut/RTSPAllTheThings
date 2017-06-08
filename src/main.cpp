@@ -14,6 +14,7 @@
 
 #include "server.h"
 #include <csignal>
+#include <cstring>
 #include <iostream>
 
 void signal_handler(int signal) {
@@ -21,16 +22,45 @@ void signal_handler(int signal) {
   exit(1);
 }
 
+void dump_config(std::shared_ptr<t_config> config) {
+  // Server config
+  std::cout << "Server config dump: " << std::endl
+            << "Address: " << config->address << std::endl
+            << "Port: " << config->port << std::endl
+            << "Route: " << config->route << std::endl
+            << "Username: " << config->username << std::endl
+            << "Password: " << config->password << std::endl
+            << std::endl;
+
+  // Input
+  if (not config->input.empty()) {
+    std::cout << "Input: " << config->input << std::endl << std::endl;
+  } else {
+    std::cout << "Input: videotestsrc with smtpe pattern" << std::endl
+              << std::endl;
+  }
+}
+
 int main(int argc, char **argv) {
   std::signal(SIGINT, signal_handler);
 
-  /* Config parsing from env */
   t_server serv;
   std::shared_ptr<t_config> config = std::make_shared<t_config>();
-  parse_env(config);
   serv.config = config;
 
+  /* Config parsing from env */
+  parse_env(config);
+
+  /* Config parsing from args (overwrite) */
+  if (not parse_args(config, argc, argv)) {
+    std::cerr << "Unable to parse arguments" << std::endl;
+    return -1;
+  }
+
+  dump_config(config);
+
+  /* Init and launch server */
   gst_init(NULL, NULL);
-  init_server_auth(&serv);
+  server_init(&serv);
   return server_launch(&serv);
 }

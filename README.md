@@ -75,15 +75,15 @@ All of these environment variables and command line arguments override the defau
 
 > Launch an RTSP stream on `rtsp://0.0.0.0:8554/live.sdp` with a snow pattern and a resolution of 960x600 pixels:
 
-`docker run --rm -e INPUT="pattern:snow" -e RTSP_RESOLUTION=960x600 ullaakut/rtspatt` or `./rtspatt -i pattern:snow -s 960x600`
+`docker run --rm -e INPUT="pattern:snow" -e RTSP_RESOLUTION=960x600 -p 8554:8554 ullaakut/rtspatt` or `./rtspatt -i pattern:snow -s 960x600`
 
 > Broadcast a camera's stream and change its framerate to 12 frames per second:
 
-`docker run --rm -e INPUT="rtsp://root:root@camera_ip:554/live.sdp" -e RTSP_FRAMERATE=12 ullaakut/rtspatt` or `./rtspatt -i rtsp://root:root@camera_ip:554/live.sdp -f 12`
+`docker run --rm -e INPUT="rtsp://root:root@camera_ip:554/live.sdp" -e RTSP_FRAMERATE=12 -p 8554:8554 ullaakut/rtspatt` or `./rtspatt -i rtsp://root:root@camera_ip:554/live.sdp -f 12`
 
 > Serve a video file on a specific address and route:
 
-`docker run --rm -e INPUT="/tmp/video.avi" -e RTSP_ADDRESS=172.100.100.12 -e RTSP_PORT=18554 -v "/path/to/your/video:/tmp/video.avi" ullaakut/rtspatt` or `./rtspatt -i /tmp/video.avi -l 172.100.100.12 -b 18554`
+`docker run --rm -e INPUT="/tmp/video.avi" -e RTSP_ADDRESS=172.100.100.12 -e RTSP_PORT=18554 -v "/path/to/your/video:/tmp/video.avi" -p 18554:18554 ullaakut/rtspatt` or `./rtspatt -i /tmp/video.avi -l 172.100.100.12 -b 18554`
 
 ## Build
 

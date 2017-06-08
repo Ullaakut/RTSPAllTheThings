@@ -16,16 +16,32 @@
 
 #include <gst/rtsp-server/rtsp-server.h>
 #include <memory>
+#include <string>
+
+#define DEFAULT_USERNAME ""
+#define DEFAULT_PASSWORD ""
+#define DEFAULT_ROUTE "/live.sdp"
+#define DEFAULT_ADDRESS "0.0.0.0"
+#define DEFAULT_PORT "8554"
+#define DEFAULT_INPUT ""
+#define DEFAULT_FRAMERATE "25"
+#define DEFAULT_WIDTH "1280"
+#define DEFAULT_HEIGHT "720"
 
 typedef struct s_config {
-  gchar *username;
-  gchar *password;
-  gchar *route;
-  gchar *address;
-  gchar *port;
-  gchar *input;
-  gchar *framerate;
-  std::pair<gchar *, gchar *> scale;
+  // Server config
+  std::string username;
+  std::string password;
+  std::string route;
+  std::string address;
+  std::string port;
+
+  // Input
+  std::string input;
+
+  // Encoding
+  std::string framerate;
+  std::pair<std::string, std::string> scale;
 } t_config;
 
 typedef struct s_server {
@@ -40,7 +56,11 @@ typedef struct s_server {
 } t_server;
 
 void init(t_server *serv);
-int parse_args(std::shared_ptr<t_config> config, int argc, char **argv);
+// Config
+bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv);
 void parse_env(std::shared_ptr<t_config> config);
-void init_server_auth(t_server *serv);
+// Server
+void server_init(t_server *serv);
 int server_launch(t_server *serv);
+// Pipeline
+std::string create_pipeline(std::shared_ptr<t_config> config);

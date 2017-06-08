@@ -27,6 +27,7 @@
 #define DEFAULT_FRAMERATE "25"
 #define DEFAULT_WIDTH "1280"
 #define DEFAULT_HEIGHT "720"
+#define DEFAULT_TIME_ENABLED false
 
 typedef struct s_config {
   // Server config
@@ -42,6 +43,9 @@ typedef struct s_config {
   // Encoding
   std::string framerate;
   std::pair<std::string, std::string> scale;
+
+  // Options
+  bool time;
 } t_config;
 
 typedef struct s_server {

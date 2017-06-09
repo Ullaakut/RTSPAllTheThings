@@ -1,6 +1,7 @@
 # RTSPATT : RTSP All The Things 1.1.0
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
+[![Build](https://img.shields.io/travis/EtixLabs/RTSPAllTheThings/master.svg?style=flat)](https://travis-ci.org/EtixLabs/RTSPAllTheThings.svg?branch=master)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ullaakut/rtspatt.svg?style=flat)](https://hub.docker.com/r/ullaakut/rtspatt/)
 [![Latest release](https://img.shields.io/badge/release-1.1.0-green.svg)](https://github.com/EtixLabs/RTSPAllTheThings/releases/latest)
 

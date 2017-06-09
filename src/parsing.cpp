@@ -71,13 +71,21 @@ void parse_env(std::shared_ptr<t_config> config) {
   config->input = DEFAULT_INPUT;
   if (const char *input = std::getenv("INPUT"))
     config->input = input;
+
+  config->time = DEFAULT_TIME_ENABLED;
+  if (const char *time = std::getenv("ENABLE_TIME_OVERLAY")) {
+    if (strcmp(time, "false") == 0)
+      config->time = false;
+    else
+      config->time = true;
+  }
 }
 
 // Overwrite default parameters via cmd line
 bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
   int c;
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:h")) != -1)
+  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:ht")) != -1)
     switch (c) {
     case 'r': // Route
       if (optarg && optarg[0] == '-')
@@ -132,12 +140,16 @@ bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
       config->scale.second = scale.substr(pos + 1);
       break;
     }
+    case 't': // Time Overlay
+      config->time = true;
+      break;
     case 'h': // help
-      fprintf(stdout, "Usage: %s [-l address] [-b port] [-r route] [-i "
-                      "input] [-u username] [-p password] [-f framerate] [-s "
-                      "'width'x'height'] [-h]\n",
+      fprintf(stdout,
+              "Usage: %s [-l address] [-b port] [-r route] [-i "
+              "input] [-u username] [-p password] [-f framerate] [-s "
+              "'width'x'height'] [-t] [-h]\n",
               argv[0]);
-      return 0;
+      return true;
     case '?':
       if (optopt == 'r' || optopt == 'l' || optopt == 'p' || optopt == 'u' ||
           optopt == 'i' || optopt == 'a' || optopt == 'b' || optopt == 'f' ||

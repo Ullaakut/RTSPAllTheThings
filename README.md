@@ -30,6 +30,7 @@ docker run --rm \
        [-e RTSP_RESOLUTION='your_width'x'your_height'] \
        [-e RTSP_FRAMERATE=your_framerate] \
        [-e INPUT=your_input] \
+       [-e ENABLE_TIME_OVERLAY=true|false] \
        [-e GST_DEBUG=your_debug_level] \
        ullaakut/rtspatt
 ```
@@ -43,6 +44,7 @@ docker run --rm \
       [-p rtsp_password] \
       [-s rtsp_resolution] \
       [-f rtsp_framerate] \
+      [-t] \
       [-i input]
 ```
 
@@ -68,6 +70,8 @@ All of these environment variables and command line arguments override the defau
   - If the argument starts with `rtsp://` it will try to open it as an **RTSP stream**
   - If it starts with `pattern:` if will create a **test video with the given pattern** (_see [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-plugins/html/gst-plugins-base-plugins-videotestsrc.html#GstVideoTestSrcPattern) for more information on this argument_)
   - Otherwise it will use the argument as a **file input**.
+* `ENABLE_TIME_OVERLAY` | `-t`:
+  If the environment variable is set to true or the command line flag is used, a time overlay will be added to the stream. This can be useful to debug latency. [default: disabled] - RTSPATT will have to do encoding to add the time (CPU usage)
 * `GST_DEBUG`:
   The desired debug level for GStreamer [default: none] (_see [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gstreamer/html/gst-running.html) for more information on this variable_)
 

@@ -18,6 +18,19 @@
 #include <iostream>
 #include <string.h>
 
+// If time overlay is enabled, add it to the pipeline
+std::string time_overlay(std::shared_ptr<t_config> config) {
+  if (config->time)
+    return " ! timeoverlay halignment=left valignment=top "
+           "shaded-background=true "
+           "font-desc=\"Sans 24\" ! "
+           "clockoverlay halignment=right valignment=top "
+           "shaded-background=true "
+           "font-desc=\"Sans 24\"";
+  else
+    return "";
+}
+
 // Take raw, change caps according to conf and transcode in h264
 std::string encode(std::shared_ptr<t_config> config) {
   std::cout << "H264 encoding with:" << std::endl
@@ -57,6 +70,8 @@ std::string create_rtsp_input(std::shared_ptr<t_config> config) {
       config->scale.first != DEFAULT_WIDTH ||
       config->scale.second != DEFAULT_HEIGHT) {
     launchCmd += " ! h264parse ! avdec_h264"; // Decode
+
+    launchCmd += time_overlay(config);
     launchCmd += encode(config);
   }
   return launchCmd;
@@ -71,6 +86,8 @@ std::string create_videotestsrc_input(std::shared_ptr<t_config> config) {
     launchCmd += "pattern=";
     launchCmd += config->input.substr(8);
   }
+
+  launchCmd += time_overlay(config);
   launchCmd += encode(config);
   return launchCmd;
 }
@@ -82,6 +99,8 @@ std::string create_file_input(std::shared_ptr<t_config> config) {
   launchCmd += "multifilesrc loop=true location=";
   launchCmd += config->input;
   launchCmd += " ! decodebin";
+
+  launchCmd += time_overlay(config);
   launchCmd += encode(config);
   return launchCmd;
 }

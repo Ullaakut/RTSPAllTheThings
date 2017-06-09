@@ -20,28 +20,33 @@
 void parse_env(std::shared_ptr<t_config> config) {
   // Address
   config->address = DEFAULT_ADDRESS;
-  if (const char *address = std::getenv("RTSP_ADDRESS"))
+  if (const char *address = std::getenv("RTSP_ADDRESS")) {
     config->address = address;
+  }
 
   // Port
   config->port = DEFAULT_PORT;
-  if (const char *port = std::getenv("RTSP_PORT"))
+  if (const char *port = std::getenv("RTSP_PORT")) {
     config->port = port;
+  }
 
   // Route
   config->route = DEFAULT_ROUTE;
-  if (const char *route = std::getenv("RTSP_ROUTE"))
+  if (const char *route = std::getenv("RTSP_ROUTE")) {
     config->route = route;
+  }
 
   // Username
   config->username = DEFAULT_USERNAME;
-  if (const char *username = std::getenv("RTSP_USERNAME"))
+  if (const char *username = std::getenv("RTSP_USERNAME")) {
     config->username = username;
+  }
 
   // Password
   config->password = DEFAULT_PASSWORD;
-  if (const char *password = std::getenv("RTSP_PASSWORD"))
+  if (const char *password = std::getenv("RTSP_PASSWORD")) {
     config->password = password;
+  }
 
   // Framerate
   config->framerate = DEFAULT_FRAMERATE;
@@ -69,15 +74,17 @@ void parse_env(std::shared_ptr<t_config> config) {
 
   // Input
   config->input = DEFAULT_INPUT;
-  if (const char *input = std::getenv("INPUT"))
+  if (const char *input = std::getenv("INPUT")) {
     config->input = input;
+  }
 
   config->time = DEFAULT_TIME_ENABLED;
   if (const char *time = std::getenv("ENABLE_TIME_OVERLAY")) {
-    if (strcmp(time, "false") == 0)
+    if (strcmp(time, "false") == 0) {
       config->time = false;
-    else
+    } else {
       config->time = true;
+    }
   }
 }
 
@@ -85,18 +92,20 @@ void parse_env(std::shared_ptr<t_config> config) {
 bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
   int c;
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:ht")) != -1)
+  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:ht")) != -1) {
     switch (c) {
     case 'r': // Route
-      if (optarg && optarg[0] == '-')
+      if (optarg && optarg[0] == '-') {
         break;
+      }
       if (not optarg[0] == '/')
         config->route = "/";
       config->route += optarg;
       break;
     case 'u': // Username
-      if (optarg && optarg[0] == '-')
+      if (optarg && optarg[0] == '-') {
         break;
+      }
       config->username = optarg;
       break;
     case 'p': // Password
@@ -164,5 +173,6 @@ bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
       return false;
       ;
     }
+  }
   return true;
 }

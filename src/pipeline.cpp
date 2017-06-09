@@ -20,15 +20,15 @@
 
 // If time overlay is enabled, add it to the pipeline
 std::string time_overlay(std::shared_ptr<t_config> config) {
-  if (config->time)
+  if (config->time) {
     return " ! timeoverlay halignment=left valignment=top "
            "shaded-background=true "
            "font-desc=\"Sans 24\" ! "
            "clockoverlay halignment=right valignment=top "
            "shaded-background=true "
            "font-desc=\"Sans 24\"";
-  else
-    return "";
+  }
+  return "";
 }
 
 // Take raw, change caps according to conf and transcode in h264

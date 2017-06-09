@@ -77,6 +77,9 @@ All of these environment variables and command line arguments override the defau
 
 ## Examples
 
+<p align="center"><img src="https://preview.ibb.co/emxVna/Example_Screen_Shot.png" alt="Ball"></p>
+
+
 > Launch an RTSP stream on `rtsp://0.0.0.0:8554/live.sdp` with a snow pattern and a resolution of 960x600 pixels:
 
 `docker run --rm -e INPUT="pattern:snow" -e RTSP_RESOLUTION=960x600 -p 8554:8554 ullaakut/rtspatt` or `./rtspatt -i pattern:snow -s 960x600`
@@ -129,6 +132,8 @@ Here is the list of patterns you can use
 * `pattern:spokes`              - Spokes
 * `pattern:gradient`            - Gradient image
 * `pattern:colors`              - All colors
+
+<p align="center"><img width="200" height="200" src="https://image.ibb.co/nAjMtF/Ball.png" alt="Ball"><img width="200" height="200" src="https://image.ibb.co/dGZbSa/Bar.png" alt="Bar"><img width="200" height="200" src="https://image.ibb.co/bFenYF/Checkers.png" alt="Checkers"></br><img width="200" height="200" src="https://image.ibb.co/ekBC0v/Circular.png" alt="Circular"><img width="200" height="200" src="https://image.ibb.co/j8UMtF/Colors.png" alt="Colors"><img width="200" height="200" src="https://image.ibb.co/bCPX0v/Gamut.png" alt="Gamut"></br><img width="200" height="200" src="https://image.ibb.co/dd3QLv/Gradient.png" alt="Gradient"><img width="200" height="200" src="https://image.ibb.co/g7Ai7a/Pinwheel.png" alt="Pinwheel"><img width="200" height="200" src="https://image.ibb.co/gu7Kfv/SMPTE.png" alt="SMPTE"></br><img width="200" height="200" src="https://image.ibb.co/gnBefv/Snow.png" alt="Snow"><img width="200" height="200" src="https://image.ibb.co/mLjMtF/Spokes.png" alt="Spokes"></p>
 
 ## License
 

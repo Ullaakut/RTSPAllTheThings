@@ -84,14 +84,16 @@ void server_init(t_server *serv) {
 /* Launch gst rtsp server */
 int server_launch(t_server *serv) {
   /* attach the server to the default maincontext */
-  if (gst_rtsp_server_attach(serv->server, NULL) == 0)
+  if (gst_rtsp_server_attach(serv->server, NULL) == 0) {
     goto failed;
+  }
 
   g_print("Stream ready at rtsp://");
   /* start serving */
-  if (not serv->config->username.empty())
+  if (not serv->config->username.empty()) {
     g_print("%s:%s@", serv->config->username.c_str(),
             serv->config->password.c_str());
+  }
 
   g_print("%s:%s%s\n", serv->config->address.c_str(),
           serv->config->port.c_str(), serv->config->route.c_str());

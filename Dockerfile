@@ -16,6 +16,4 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 COPY rtspatt /
 EXPOSE 8554
 
-RUN gst-inspect-1.0
-
 ENTRYPOINT ["/rtspatt"]

@@ -98,9 +98,8 @@ bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
       if (optarg && optarg[0] == '-') {
         break;
       }
-      if (not optarg[0] == '/') {
+      if (not optarg[0] == '/')
         config->route = "/";
-      }
       config->route += optarg;
       break;
     case 'u': // Username
@@ -110,39 +109,33 @@ bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
       config->username = optarg;
       break;
     case 'p': // Password
-      if (optarg && optarg[0] == '-') {
+      if (optarg && optarg[0] == '-')
         break;
-      }
       config->password = optarg;
       break;
     case 'i': // Input
-      if (optarg && optarg[0] == '-') {
+      if (optarg && optarg[0] == '-')
         break;
-      }
       config->input = optarg;
       break;
     case 'l': // Listen address
-      if (optarg && optarg[0] == '-') {
+      if (optarg && optarg[0] == '-')
         break;
-      }
       config->address = optarg;
       break;
     case 'b': // Port
-      if (optarg && optarg[0] == '-') {
+      if (optarg && optarg[0] == '-')
         break;
-      }
       config->port = optarg;
       break;
     case 'f': // Framerate
-      if (optarg && optarg[0] == '-') {
+      if (optarg && optarg[0] == '-')
         break;
-      }
       config->framerate = optarg;
       break;
     case 's': { // Scale
-      if (optarg && optarg[0] == '-') {
+      if (optarg && optarg[0] == '-')
         break;
-      }
       size_t pos = 0;
       std::string scale = optarg;
       if ((pos = scale.find("x")) == std::string::npos) {
@@ -169,13 +162,12 @@ bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
     case '?':
       if (optopt == 'r' || optopt == 'l' || optopt == 'p' || optopt == 'u' ||
           optopt == 'i' || optopt == 'a' || optopt == 'b' || optopt == 'f' ||
-          optopt == 's') {
+          optopt == 's')
         fprintf(stderr, "Option -%c requires an argument.\n", optopt);
-      } else if (isprint(optopt)) {
+      else if (isprint(optopt))
         fprintf(stderr, "Unknown option `-%c'.\n", optopt);
-      } else {
+      else
         fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
-      }
       return false;
     default:
       return false;

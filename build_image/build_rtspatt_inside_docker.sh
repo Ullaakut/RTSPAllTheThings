@@ -4,7 +4,7 @@ set -e
 set -x
 
 # Build RTSPATT
-mkdir ../build
+mkdir -p ../build
 cd ../build
 cmake ../RTSPATT
 make

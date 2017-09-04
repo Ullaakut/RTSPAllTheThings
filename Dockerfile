@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     gstreamer1.0-plugins-bad \
     gstreamer1.0-plugins-good \
     gstreamer1.0-x \
+    gstreamer1.0-libav \
     gstreamer1.0-tools && \
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

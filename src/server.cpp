@@ -76,6 +76,9 @@ void server_init(t_server *serv) {
 
   /* Pipeline launch */
   std::string launchCmd = create_pipeline(serv->config);
+  if (serv->config->input_type == FILE_INPUT) {
+    configure_file_input(serv);
+  }
   g_print("Launching stream with the following pipeline: %s\n",
           launchCmd.c_str());
   gst_rtsp_media_factory_set_launch(serv->factory, launchCmd.c_str());

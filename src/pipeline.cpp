@@ -19,7 +19,7 @@
 #include <string.h>
 
 // If time overlay is enabled, add it to the pipeline
-std::string time_overlay(std::shared_ptr<t_config> config) {
+std::string time_overlay(std::shared_ptr<t_config> &config) {
   if (config->time) {
     return " ! timeoverlay halignment=left valignment=top "
            "shaded-background=true "
@@ -32,7 +32,7 @@ std::string time_overlay(std::shared_ptr<t_config> config) {
 }
 
 // Take raw, change caps according to conf and transcode in h264
-std::string encode(std::shared_ptr<t_config> config) {
+std::string encode(std::shared_ptr<t_config> &config) {
   std::cout << "H264 encoding with:" << std::endl
             << "Framerate:\t" << config->framerate << std::endl
             << "Resolution:\t" << config->scale.first << "x"
@@ -57,7 +57,7 @@ std::string encode(std::shared_ptr<t_config> config) {
 }
 
 // Rtsp input pipeline
-std::string create_rtsp_input(std::shared_ptr<t_config> config) {
+std::string create_rtsp_input(std::shared_ptr<t_config> &config) {
   std::string launchCmd = "";
 
   // Receive & depay
@@ -78,7 +78,7 @@ std::string create_rtsp_input(std::shared_ptr<t_config> config) {
 }
 
 // Videosrc input pipeline
-std::string create_videotestsrc_input(std::shared_ptr<t_config> config) {
+std::string create_videotestsrc_input(std::shared_ptr<t_config> &config) {
   std::string launchCmd = "";
 
   launchCmd += "videotestsrc ";
@@ -93,11 +93,10 @@ std::string create_videotestsrc_input(std::shared_ptr<t_config> config) {
 }
 
 // File input pipeline
-std::string create_file_input(std::shared_ptr<t_config> config) {
+std::string create_file_input(std::shared_ptr<t_config> &config) {
   std::string launchCmd = "";
 
-  launchCmd += "multifilesrc loop=true location=";
-  launchCmd += config->input;
+  launchCmd += "appsrc name=mysrc";
   launchCmd += " ! decodebin";
 
   launchCmd += time_overlay(config);
@@ -106,16 +105,14 @@ std::string create_file_input(std::shared_ptr<t_config> config) {
 }
 
 /* Create pipeline according to config */
-std::string create_pipeline(std::shared_ptr<t_config> config) {
+std::string create_pipeline(std::shared_ptr<t_config> &config) {
   std::string launchCmd = "( ";
 
-  if (config->input.compare(0, 7, "rtsp://") == 0) { // RTSP stream input
+  if (config->input_type == RTSP_INPUT) {
     launchCmd += create_rtsp_input(config);
-  } else if (config->input.empty() || config->input.compare(0, 8,
-                                                            "pattern:") ==
-                                          0) { // Videotestsrc pattern input
+  } else if (config->input_type == VIDEOTESTSRC_INPUT) {
     launchCmd += create_videotestsrc_input(config);
-  } else { // File
+  } else if (config->input_type == FILE_INPUT) {
     launchCmd += create_file_input(config);
   }
 

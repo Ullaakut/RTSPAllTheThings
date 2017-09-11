@@ -64,11 +64,11 @@ typedef struct s_server {
 
 void init(t_server *serv);
 // Config
-bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv);
-void parse_env(std::shared_ptr<t_config> config);
-void parse_input_type(std::shared_ptr<t_config> config);
+bool parse_args(std::shared_ptr<t_config> &config, int argc, char **argv);
+void parse_env(std::shared_ptr<t_config> &config);
+void parse_input_type(std::shared_ptr<t_config> &config);
 std::string input_type_to_string(InputType type);
-void dump_config(std::shared_ptr<t_config> config);
+void dump_config(std::shared_ptr<t_config> &config);
 // Server
 void server_init(t_server *serv);
 int server_launch(t_server *serv);
@@ -76,5 +76,5 @@ int server_launch(t_server *serv);
 void print_logo();
 void print_name();
 // Pipeline
-std::string create_pipeline(std::shared_ptr<t_config> config);
+std::string create_pipeline(std::shared_ptr<t_config> &config);
 void configure_file_input(t_server *serv);

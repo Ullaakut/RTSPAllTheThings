@@ -17,7 +17,7 @@
 #include <string.h>
 
 // Set config defaults or from env
-void parse_env(std::shared_ptr<t_config> config) {
+void parse_env(std::shared_ptr<t_config> &config) {
   // Address
   config->address = DEFAULT_ADDRESS;
   if (const char *address = std::getenv("RTSP_ADDRESS")) {
@@ -89,7 +89,7 @@ void parse_env(std::shared_ptr<t_config> config) {
 }
 
 // Overwrite default parameters via cmd line
-bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
+bool parse_args(std::shared_ptr<t_config> &config, int argc, char **argv) {
   int c;
   opterr = 0;
   while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:ht")) != -1) {
@@ -160,9 +160,10 @@ bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
       config->time = true;
       break;
     case 'h': // help
-      fprintf(stdout, "Usage: %s [-l address] [-b port] [-r route] [-i "
-                      "input] [-u username] [-p password] [-f framerate] [-s "
-                      "'width'x'height'] [-t] [-h]\n",
+      fprintf(stdout,
+              "Usage: %s [-l address] [-b port] [-r route] [-i "
+              "input] [-u username] [-p password] [-f framerate] [-s "
+              "'width'x'height'] [-t] [-h]\n",
               argv[0]);
       return true;
     case '?':
@@ -184,13 +185,12 @@ bool parse_args(std::shared_ptr<t_config> config, int argc, char **argv) {
   return true;
 }
 
-void parse_input_type(std::shared_ptr<t_config> config) {
+void parse_input_type(std::shared_ptr<t_config> &config) {
   if (config->input.compare(0, 7, "rtsp://") == 0) { // RTSP stream input
     config->input_type = RTSP_INPUT;
-  } else if (config->input.empty() ||
-             config->input.compare(0, 8,
-                                   "pattern:") ==
-                 0) { // Videotestsrc pattern input
+  } else if (config->input.empty() || config->input.compare(0, 8,
+                                                            "pattern:") ==
+                                          0) { // Videotestsrc pattern input
     config->input_type = VIDEOTESTSRC_INPUT;
   } else { // File
     config->input_type = FILE_INPUT;
@@ -212,7 +212,7 @@ std::string input_type_to_string(InputType type) {
   }
 }
 
-void dump_config(std::shared_ptr<t_config> config) {
+void dump_config(std::shared_ptr<t_config> &config) {
   // Server config
   std::cout << "Server configuration:" << std::endl
             << "Address:\t" << config->address << std::endl

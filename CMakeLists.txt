@@ -35,7 +35,6 @@ function(find_sources DIRS)
   set (HEADERS ${_headers} PARENT_SCOPE)
 endfunction()
 
-
 # Cmake properties
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE ON)
@@ -68,34 +67,24 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fprofile-arcs -ftest-covera
 # find gstreamer 1.x libraries
 pkg_search_module(GSTREAMER REQUIRED gstreamer-1.0)
 find_library(LIB_GSTREAMER NAMES ${GSTREAMER_LIBRARIES} HINTS ${GSTREAMER_LIBRARY_DIRS})
-
 FIND_LIBRARY(GST_RTSP_SERVER_LIBRARY_DIRS NAMES gstrtspserver-1.0 PATHS "/usr/lib/x86_64-linux-gnu/gstreamer-1.0/")
-
 FIND_PATH(GST_RTSP_SERVER_INCLUDE_DIRS gst/rtsp-server/rtsp-server.h PATHS "/usr/include/gstreamer-1.0")
+pkg_search_module(GSTREAMER_APP REQUIRED gstreamer-app-1.0) # for appsrc
 
 include_directories (
         "${PROJECT_SOURCE_DIR}/include"
         "${GSTREAMER_INCLUDE_DIRS}"
         "${GST_RTSP_SERVER_INCLUDE_DIRS}"
+	"${GSTREAMER_APP_INCLUDE_DIRS}"
 )
-
 
 link_directories (
   "${GSTREAMER_LIBRARY_DIRS}"
   "${GST_RTSP_SERVER_LIBRARY_DIRS}"
+  "${GSTREAMER_APP_LIBRARY_DIRS}"
 )
-
-if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
-    # search special osx gstreamer libs
-    pkg_search_module(GSTREAMER_APP REQUIRED gstreamer-app-1.0)
-    find_library(LIB_GSTREAMER NAMES ${GSTREAMER_APP_LIBRARIES} HINTS ${GSTREAMER_APP_LIBRARY_DIRS})
-
-    include_directories (${GSTREAMER_APP_INCLUDE_DIRS})
-
-    link_directories (${GSTREAMER_APP_LIBRARY_DIRS})
-endif()
 
 find_sources("src" "include")
 add_executable (rtspatt ${HEADERS} ${SOURCES})
 
-target_link_libraries (rtspatt ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS})
+target_link_libraries (rtspatt ${GSTREAMER_LIBRARIES} ${GST_RTSP_SERVER_LIBRARY_DIRS} ${GSTREAMER_APP_LIBRARIES})

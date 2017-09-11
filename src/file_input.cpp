@@ -27,7 +27,7 @@ struct _App {
 App s_app;
 
 typedef struct {
-  App *glblapp;
+  App *app;
   GstClockTime timestamp;
 } Context;
 
@@ -35,7 +35,7 @@ typedef struct {
 static void need_data(GstElement *appsrc, guint unused, Context *ctx) {
   GstFlowReturn ret;
   GstSample *sample =
-      gst_app_sink_pull_sample(GST_APP_SINK(ctx->glblapp->videosink));
+      gst_app_sink_pull_sample(GST_APP_SINK(ctx->app->videosink));
   if (sample != NULL) {
     GstBuffer *buffer = gst_sample_get_buffer(sample);
     gst_app_src_push_sample(GST_APP_SRC(appsrc), sample);
@@ -59,7 +59,7 @@ static void media_configure(GstRTSPMediaFactory *factory, GstRTSPMedia *media,
   g_object_set(G_OBJECT(appsrc), "max-bytes",
                gst_app_src_get_max_bytes(GST_APP_SRC(appsrc)), NULL);
   ctx = g_new0(Context, 1);
-  ctx->glblapp = app;
+  ctx->app = app;
   ctx->timestamp = 0;
   g_signal_connect(appsrc, "need-data", (GCallback)need_data, ctx);
 }

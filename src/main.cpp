@@ -22,23 +22,6 @@ void signal_handler(int signal) {
   exit(1);
 }
 
-void dump_config(std::shared_ptr<t_config> config) {
-  // Server config
-  std::cout << "Server configuration:" << std::endl
-            << "Address:\t" << config->address << std::endl
-            << "Port:\t\t" << config->port << std::endl
-            << "Route:\t\t" << config->route << std::endl
-            << "Username:\t" << config->username << std::endl
-            << "Password:\t" << config->password << std::endl
-            << std::endl;
-
-  // Input
-  std::cout << "Input:\t\t";
-  config->input.empty() ? std::cout << "pattern:smpte"
-                        : std::cout << config->input;
-  std::cout << std::endl << std::endl;
-}
-
 int main(int argc, char **argv) {
   std::signal(SIGINT, signal_handler);
 
@@ -54,6 +37,7 @@ int main(int argc, char **argv) {
     std::cerr << "Unable to parse arguments" << std::endl;
     return -1;
   }
+  parse_input_type(config);
 
   print_logo();
   print_name();

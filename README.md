@@ -72,7 +72,7 @@ All of these environment variables and command line arguments override the defau
   Input used as video source. [default: `pattern:smtpe`] - RTSPATT will have to do encoding to generate patterns and to open files (CPU usage)
   - If the argument starts with `rtsp://` it will try to open it as an **RTSP stream**
   - If it starts with `pattern:` if will create a **test video with the given pattern** (_see [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-plugins/html/gst-plugins-base-plugins-videotestsrc.html#GstVideoTestSrcPattern) for more information on this argument_)
-  - Otherwise it will use the argument as a **file input**. Remember to use the `-v` option to insert a video into your container if you want to read it. Example: `docker run -e INPUT=/tmp/video.mp4 -v /home/test/documents/myVideo.mp4:/tmp/video -p 8554:8554 ullaakut/rtspatt`. The repository contains a 30 second sample video in the `samples` folder.
+  - Otherwise it will use the argument as a absolute link to **file input**. Remember to use the `-v` option to insert a video into your container if you want to read it. Example: `docker run -e INPUT=/tmp/video.mp4 -v /home/test/documents/myVideo.mp4:/tmp/video -p 8554:8554 ullaakut/rtspatt`. The repository contains a 30 second sample video in the `samples` folder.
 * `ENABLE_TIME_OVERLAY` | `-t`:
   If the environment variable is set to true or the command line flag is used, a time overlay will be added to the stream. This can be useful to debug latency. [default: disabled] - RTSPATT will have to do encoding to add the time (CPU usage)
 * `GST_DEBUG`:

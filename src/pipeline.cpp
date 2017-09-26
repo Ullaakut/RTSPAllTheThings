@@ -23,10 +23,10 @@ std::string time_overlay(std::shared_ptr<t_config> &config) {
   if (config->time) {
     return " ! timeoverlay halignment=left valignment=top "
            "shaded-background=true "
-           "font-desc=\"Sans 24\" ! "
+           "font-desc=\"Sans 10\" ! "
            "clockoverlay halignment=right valignment=top "
            "shaded-background=true "
-           "font-desc=\"Sans 24\"";
+           "font-desc=\"Sans 10\"";
   }
   return "";
 }

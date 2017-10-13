@@ -210,7 +210,7 @@ std::string input_type_to_string(InputType type) {
   case VIDEOTESTSRC_INPUT:
     return "videotestsrc";
   case DEVICE_INPUT;
-    return "v4l2src"
+    return "v4l2src";
   default:
     break;
   }

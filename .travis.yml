@@ -5,7 +5,7 @@ services:
 
 before_install:
   - echo "Testing Docker Hub credentials"
-  - docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+  - if [[ "$DOCKER_PASSOWRD" != "" ]]; then docker login -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD; fi
   - echo "Docker Hub credentials are working"
 
 script:
@@ -14,6 +14,6 @@ script:
 after_success:
   - echo "Test Success - Branch($TRAVIS_BRANCH) Pull Request($TRAVIS_PULL_REQUEST) Tag($TRAVIS_TAG)"
 
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then echo -e "Push Container to Docker Hub" && docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && docker tag rtspatt $DOCKER_REPO:latest && docker push $DOCKER_REPO; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$DOCKER_PASSWORD" != "" ]]; then echo -e "Push Container to Docker Hub" && docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && docker tag rtspatt $DOCKER_REPO:latest && docker push $DOCKER_REPO; fi
 
-  - if [[ ("$TRAVIS_BRANCH" == "master" && ! -z "$TRAVIS_TAG") ]]; then echo -e "Push new tag to Docker Hub" && docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && docker tag rtspatt $DOCKER_REPO:$TRAVIS_TAG && docker push $DOCKER_REPO; fi
+  - if [[ ("$TRAVIS_BRANCH" == "master" && "DOCKER_PASSWORD" != "" && ! -z "$TRAVIS_TAG") ]]; then echo -e "Push new tag to Docker Hub" && docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD && docker tag rtspatt $DOCKER_REPO:$TRAVIS_TAG && docker push $DOCKER_REPO; fi

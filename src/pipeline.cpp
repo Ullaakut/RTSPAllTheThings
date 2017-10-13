@@ -106,14 +106,15 @@ std::string create_file_input(std::shared_ptr<t_config> &config) {
 
 // Device input pipeline
 std::string create_device_input(std::shared_ptr<t_config> &config) {
-  // std::string launchCmd = "";
+  std::string launchCmd = ""; 
 
-  // launchCmd += "appsrc name=mysrc";
-  // launchCmd += " ! decodebin";
+  launchCmd += "gst-launch";
+  launchCmd += " v4l2src device=";
+  launchCmd += config->input;
 
-  // launchCmd += time_overlay(config);
-  // launchCmd += encode(config);
-  // return launchCmd;
+  launchCmd += time_overlay(config);
+  launchCmd += encode(config);
+  return launchCmd;
 }
 
 /* Create pipeline according to config */

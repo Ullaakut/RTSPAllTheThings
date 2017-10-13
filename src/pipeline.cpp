@@ -114,6 +114,8 @@ std::string create_pipeline(std::shared_ptr<t_config> &config) {
     launchCmd += create_videotestsrc_input(config);
   } else if (config->input_type == FILE_INPUT) {
     launchCmd += create_file_input(config);
+  } else if (config->input_type == DEVICE_INPUT) {
+    launchCmd += create_device_input(config);
   }
 
   launchCmd += " ! rtph264pay name=pay0 pt=96 ";

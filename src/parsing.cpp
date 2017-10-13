@@ -192,6 +192,8 @@ void parse_input_type(std::shared_ptr<t_config> &config) {
                                                             "pattern:") ==
                                           0) { // Videotestsrc pattern input
     config->input_type = VIDEOTESTSRC_INPUT;
+  } else if (config->input.compare(0, 10, "/dev/video") == 0) { // v4l2src input
+    config->input_type = DEVICE_INPUT;
   } else { // File
     config->input_type = FILE_INPUT;
   }

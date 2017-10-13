@@ -108,7 +108,7 @@ std::string create_file_input(std::shared_ptr<t_config> &config) {
 std::string create_device_input(std::shared_ptr<t_config> &config) {
   std::string launchCmd = ""; 
 
-  launchCmd += "gst-launch";
+  launchCmd += "gst-launch1.0";
   launchCmd += " v4l2src device=";
   launchCmd += config->input;
 

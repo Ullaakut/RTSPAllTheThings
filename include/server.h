@@ -29,7 +29,7 @@
 #define DEFAULT_HEIGHT "720"
 #define DEFAULT_TIME_ENABLED false
 
-enum InputType { UNDEFINED_INPUT, FILE_INPUT, RTSP_INPUT, VIDEOTESTSRC_INPUT };
+enum InputType { UNDEFINED_INPUT, FILE_INPUT, RTSP_INPUT, VIDEOTESTSRC_INPUT, DEVICE_INPUT };
 
 typedef struct s_config {
   // Server config

@@ -104,6 +104,18 @@ std::string create_file_input(std::shared_ptr<t_config> &config) {
   return launchCmd;
 }
 
+// Device input pipeline
+std::string create_device_input(std::shared_ptr<t_config> &config) {
+  // std::string launchCmd = "";
+
+  // launchCmd += "appsrc name=mysrc";
+  // launchCmd += " ! decodebin";
+
+  // launchCmd += time_overlay(config);
+  // launchCmd += encode(config);
+  // return launchCmd;
+}
+
 /* Create pipeline according to config */
 std::string create_pipeline(std::shared_ptr<t_config> &config) {
   std::string launchCmd = "( ";

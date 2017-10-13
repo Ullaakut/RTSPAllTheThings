@@ -209,7 +209,7 @@ std::string input_type_to_string(InputType type) {
     return "rtsp";
   case VIDEOTESTSRC_INPUT:
     return "videotestsrc";
-  case DEVICE_INPUT;
+  case DEVICE_INPUT:
     return "v4l2src";
   default:
     break;

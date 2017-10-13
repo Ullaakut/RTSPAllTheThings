@@ -6,7 +6,7 @@
 [![Docker Pulls](https://img.shields.io/docker/pulls/ullaakut/rtspatt.svg?style=flat)](https://hub.docker.com/r/ullaakut/rtspatt/)
 [![Latest release](https://img.shields.io/github/release/EtixLabs/RTSPAllTheThings.svg?style=flat)](https://github.com/EtixLabs/RTSPAllTheThings/releases/latest)
 
-### A multipurpose RTSP media server that can simulate RTSP cameras, broadcast RTSP streams and even create test videos or serve video files.
+### A multipurpose RTSP media server that can simulate RTSP cameras, broadcast RTSP streams, webcams and even create test videos or serve video files.
 
 ## Dependencies
 
@@ -71,6 +71,7 @@ All of these environment variables and command line arguments override the defau
   Input used as video source. [default: `pattern:smtpe`]
   - If the argument starts with `rtsp://` it will try to open it as an **RTSP stream**
   - If it starts with `pattern:` if will create a **test video with the given pattern** (_see [this link](https://gstreamer.freedesktop.org/data/doc/gstreamer/head/gst-plugins-base-plugins/html/gst-plugins-base-plugins-videotestsrc.html#GstVideoTestSrcPattern) for more information on this argument_)
+  - If the argument starts with `/dev/video` it will create a stream from the /dev/video device passed into docker at the launch of the instance. You will need to pass in the video device as follows: `--device=/dev/video0:/dev/video0` where `video0` is the video device.
   - Otherwise it will use the argument as a absolute link to **file input**. Remember to use the `-v` option to insert a video into your container if you want to read it. Example: `docker run -e INPUT=/tmp/video.mp4 -v /home/test/documents/myVideo.mp4:/tmp/video -p 8554:8554 ullaakut/rtspatt`. The repository contains a 30 second sample video in the `samples` folder.
 * `ENABLE_TIME_OVERLAY` | `-t`:
   If the environment variable is set to true or the command line flag is used, a time overlay will be added to the stream. This can be useful to debug latency. [default: disabled] - RTSPATT will have to do encoding to add the time (CPU usage)
@@ -89,6 +90,9 @@ All of these environment variables and command line arguments override the defau
 > Broadcast a camera's stream and change its framerate to 12 frames per second:
 
 `docker run --rm -e INPUT="rtsp://root:root@camera_ip:554/live.sdp" -e RTSP_FRAMERATE=12 -p 8554:8554 ullaakut/rtspatt` or `./rtspatt -i rtsp://root:root@camera_ip:554/live.sdp -f 12`
+
+> Broadcast a video stream from a connected device:
+`docker run --rm -e INPUT="/dev/video0" --device=/dev/video0:/dev/video0 -p 8554:8554 rtspatt`
 
 > Serve a video file on a specific address and route:
 

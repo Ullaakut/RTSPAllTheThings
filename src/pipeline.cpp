@@ -50,8 +50,7 @@ std::string encode(std::shared_ptr<t_config> &config) {
   launchCmd += config->framerate;
   launchCmd += "/1";
   launchCmd += " ! capsfilter ! queue"
-               " ! x264enc speed-preset=superfast "
-               "tune=zerolatency";
+               " ! x264enc speed-preset=superfast";
 
   return launchCmd;
 }

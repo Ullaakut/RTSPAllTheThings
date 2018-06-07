@@ -1,6 +1,4 @@
-FROM ubuntu:16.04
-
-MAINTAINER brendan.le-glaunec@epitech.eu
+FROM ubuntu:17.10
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \

@@ -28,6 +28,7 @@
 #define DEFAULT_WIDTH "1280"
 #define DEFAULT_HEIGHT "720"
 #define DEFAULT_TIME_ENABLED false
+#define DEFAULT_DIGEST_ENABLED false
 
 enum InputType { UNDEFINED_INPUT, FILE_INPUT, RTSP_INPUT, VIDEOTESTSRC_INPUT, DEVICE_INPUT };
 
@@ -49,6 +50,7 @@ typedef struct s_config {
 
   // Options
   bool time;
+  bool digest;
 } t_config;
 
 typedef struct s_server {
@@ -59,6 +61,7 @@ typedef struct s_server {
   GstRTSPAuth *auth;
   GstRTSPToken *token;
   gchar *basic;
+
   std::shared_ptr<t_config> config;
 } t_server;
 

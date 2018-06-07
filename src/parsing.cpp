@@ -78,12 +78,23 @@ void parse_env(std::shared_ptr<t_config> &config) {
     config->input = input;
   }
 
+  // Time
   config->time = DEFAULT_TIME_ENABLED;
   if (const char *time = std::getenv("ENABLE_TIME_OVERLAY")) {
     if (strcmp(time, "false") == 0) {
       config->time = false;
     } else {
       config->time = true;
+    }
+  }
+
+  // Digest auth (if anything other than digest, basic will be used)
+  config->digest = DEFAULT_DIGEST_ENABLED;
+  if (const char *auth = std::getenv("RTSP_AUTHENTICATION_METHOD")) {
+    if (strcmp(auth, "digest") == 0) {
+      config->digest = true;
+    } else {
+      config->digest = false;
     }
   }
 }
@@ -224,7 +235,15 @@ void dump_config(std::shared_ptr<t_config> &config) {
             << "Route:\t\t" << config->route << std::endl
             << "Username:\t" << config->username << std::endl
             << "Password:\t" << config->password << std::endl
-            << std::endl;
+            << "Auth method:\t";
+
+            if (config->digest) {
+              std::cout << "Digest";
+            } else {
+              std::cout << "Basic";
+            }
+
+           std::cout << std::endl;
 
   // Input
   std::cout << "Input:\t\t";

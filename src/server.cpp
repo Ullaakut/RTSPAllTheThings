@@ -63,10 +63,16 @@ void server_init(t_server *serv) {
     serv->token =
         gst_rtsp_token_new(GST_RTSP_TOKEN_MEDIA_FACTORY_ROLE, G_TYPE_STRING,
                            serv->config->username.c_str(), NULL);
+
+  if (serv->config->digest) {
+    gst_rtsp_auth_set_supported_methods(serv->auth, GST_RTSP_AUTH_DIGEST);
+    gst_rtsp_auth_set_default_token(serv->auth, serv->token);
+  } else {
     serv->basic = gst_rtsp_auth_make_basic(serv->config->username.c_str(),
                                            serv->config->password.c_str());
     gst_rtsp_auth_add_basic(serv->auth, serv->basic, serv->token);
     g_free(serv->basic);
+  }
     gst_rtsp_token_unref(serv->token);
 
     /* set as the server authentication manager */

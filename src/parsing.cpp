@@ -170,11 +170,14 @@ bool parse_args(std::shared_ptr<t_config> &config, int argc, char **argv) {
     case 't': // Time Overlay
       config->time = true;
       break;
+    case 'd': // Use digest instead of basic auth
+      config->digest = true;
+      break;
     case 'h': // help
       fprintf(stdout,
               "Usage: %s [-l address] [-b port] [-r route] [-i "
               "input] [-u username] [-p password] [-f framerate] [-s "
-              "'width'x'height'] [-t] [-h]\n",
+              "'width'x'height'] [-d] [-t] [-h]\n",
               argv[0]);
       return true;
     case '?':

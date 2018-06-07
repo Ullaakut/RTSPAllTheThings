@@ -1,4 +1,4 @@
-# RTSPATT : RTSP All The Things 1.1.0
+# RTSPATT : RTSP All The Things 1.3.0
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
 [![Build](https://img.shields.io/travis/EtixLabs/RTSPAllTheThings/master.svg?style=flat)](https://travis-ci.org/EtixLabs/RTSPAllTheThings.svg?branch=master)

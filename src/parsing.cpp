@@ -241,9 +241,9 @@ void dump_config(std::shared_ptr<t_config> &config) {
             << "Auth method:\t";
 
             if (config->digest) {
-              std::cout << "Digest";
+              std::cout << "digest";
             } else {
-              std::cout << "Basic";
+              std::cout << "basic";
             }
 
            std::cout << std::endl;

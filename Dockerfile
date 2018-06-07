@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-MAINTAINER brendan.leglaunec@etixgroup.com
+MAINTAINER brendan.le-glaunec@epitech.eu
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     libgstrtspserver-1.0-dev \

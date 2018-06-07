@@ -66,6 +66,7 @@ void server_init(t_server *serv) {
 
   if (serv->config->digest) {
     gst_rtsp_auth_set_supported_methods(serv->auth, GST_RTSP_AUTH_DIGEST);
+    gst_rtsp_auth_add_digest(serv->auth, serv->config->username.c_str(), serv->config->password.c_str(), serv->token);
     gst_rtsp_auth_set_default_token(serv->auth, serv->token);
   } else {
     serv->basic = gst_rtsp_auth_make_basic(serv->config->username.c_str(),

@@ -100,8 +100,8 @@ bool configure_file_input(t_server *serv) {
   g_signal_connect(serv->factory, "media-configure", (GCallback)media_configure,
                    app);
 
-  if (!access(input_path.c_str(), F_OK) != -1) {
-    return false;
+  if (access(input_path.c_str(), F_OK) != -1) {
+    return true;
   }
-  return true;
+  return false;
 }

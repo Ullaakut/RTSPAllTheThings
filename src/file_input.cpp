@@ -82,7 +82,7 @@ gboolean bus_callback(GstBus *bus, GstMessage *msg, gpointer data) {
   return TRUE;
 }
 
-void configure_file_input(t_server *serv) {
+bool configure_file_input(t_server *serv) {
   // Setup and configuration
   App *app = &s_app;
   GstElement *playbin = gst_element_factory_make("playbin", "play");
@@ -99,4 +99,9 @@ void configure_file_input(t_server *serv) {
   // Media
   g_signal_connect(serv->factory, "media-configure", (GCallback)media_configure,
                    app);
+
+  if (!access(input_path.c_str(), F_OK) != -1) {
+    return false;
+  }
+  return true;
 }

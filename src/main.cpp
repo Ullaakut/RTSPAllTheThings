@@ -45,6 +45,9 @@ int main(int argc, char **argv) {
 
   /* Init and launch server */
   gst_init(NULL, NULL);
-  server_init(&serv);
+  if (!server_init(&serv)) {
+    std::cerr << "Input file not found at " << config->input << std::endl;
+    return -1;
+  }
   return server_launch(&serv);
 }

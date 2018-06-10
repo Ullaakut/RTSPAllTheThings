@@ -19,7 +19,7 @@
 #include <string.h>
 
 /* Init gst rtsp server */
-void server_init(t_server *serv) {
+bool server_init(t_server *serv) {
   serv->loop = g_main_loop_new(NULL, FALSE);
 
   /* create a server instance */
@@ -83,11 +83,15 @@ void server_init(t_server *serv) {
   /* Pipeline launch */
   std::string launchCmd = create_pipeline(serv->config);
   if (serv->config->input_type == FILE_INPUT) {
-    configure_file_input(serv);
+    if (!configure_file_input(serv)) {
+      return false;
+    }
   }
   g_print("Launching stream with the following pipeline: %s\n",
           launchCmd.c_str());
   gst_rtsp_media_factory_set_launch(serv->factory, launchCmd.c_str());
+
+  return true;
 }
 
 /* Launch gst rtsp server */

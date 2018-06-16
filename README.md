@@ -1,7 +1,7 @@
 # RTSPATT : RTSP All The Things 1.3.1
 
 [![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
-[![Build](https://img.shields.io/travis/EtixLabs/RTSPAllTheThings/master.svg?style=flat)](https://travis-ci.org/Ullaakut/RTSPAllTheThings)
+[![Build Status](https://travis-ci.org/Ullaakut/RTSPAllTheThings.svg?branch=master)](https://travis-ci.org/Ullaakut/RTSPAllTheThings)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/86681212bbc04cf797640dbe700e7057)](https://www.codacy.com/app/brendan-le-glaunec/RTSPAllTheThings?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EtixLabs/RTSPAllTheThings&amp;utm_campaign=Badge_Grade)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ullaakut/rtspatt.svg?style=flat)](https://hub.docker.com/r/ullaakut/rtspatt/)
 [![Latest release](https://img.shields.io/github/release/EtixLabs/RTSPAllTheThings.svg?style=flat)](https://github.com/EtixLabs/RTSPAllTheThings/releases/latest)

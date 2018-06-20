@@ -19,6 +19,9 @@
 #include <gst/app/gstappsrc.h>
 #include <iostream>
 #include <string.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
 
 typedef struct _App App;
 struct _App {
@@ -82,6 +85,12 @@ gboolean bus_callback(GstBus *bus, GstMessage *msg, gpointer data) {
   return TRUE;
 }
 
+inline bool file_exists (const std::string& name) {
+  struct stat buffer;
+  std::string corrected_name = name.substr(5);
+  return (stat (corrected_name.c_str(), &buffer) == 0);
+}
+
 bool configure_file_input(t_server *serv) {
   // Setup and configuration
   App *app = &s_app;
@@ -100,8 +109,11 @@ bool configure_file_input(t_server *serv) {
   g_signal_connect(serv->factory, "media-configure", (GCallback)media_configure,
                    app);
 
-  if (access(input_path.c_str(), F_OK) != -1) {
+  if (file_exists(input_path)) {
     return true;
+  }
+  else {
+    std::cerr << "Can't access " << input_path.c_str() << std::endl;
   }
   return false;
 }

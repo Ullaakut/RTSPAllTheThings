@@ -84,9 +84,9 @@ All of these environment variables and command line arguments override the defau
 * `RTSP_PASSWORD` | `-p`:
   If you want to enable security on your stream, using this option will allow you to specify the password required to access your stream [default: none]
 * `RTSP_RESOLUTION` | `-s`:
-  The resolution at which you want to stream [default: `1280x720`] - RTSPATT will have to do encoding to resize the stream (Increased CPU usage)
+  The resolution at which you want to stream [default: `1280x720` for videotestsrc only] - RTSPATT will have to do encoding to resize the stream (Increased CPU usage)
 * `RTSP_FRAMERATE` | `-f`:
-  The desired output framerate for your stream [default: `25`] - RTSPATT will have to do encoding to change the framerate (Increased CPU usage)
+  The desired output framerate for your stream - RTSPATT will have to do encoding to change the framerate (Increased CPU usage)
 * `INPUT` | `-i`:
   Input used as video source. [default: `pattern:smtpe`]
   - If the argument starts with `rtsp://` it will try to open it as an **RTSP stream**
@@ -191,6 +191,12 @@ Here is the list of patterns you can use
   <img width="200" height="200" src="https://image.ibb.co/gnBefv/Snow.png" alt="Snow">
   <img width="200" height="200" src="https://image.ibb.co/mLjMtF/Spokes.png" alt="Spokes">
 </p>
+
+## FAQ
+
+> Does it stream over TCP, UDP or HTTP?
+
+Currently it only streams over TCP.
 
 ## License
 

@@ -49,14 +49,14 @@ void parse_env(std::shared_ptr<t_config> &config) {
   }
 
   // Framerate
-  config->framerate = DEFAULT_FRAMERATE;
+  config->framerate = "";
   if (const char *framerate = std::getenv("RTSP_FRAMERATE")) {
     config->framerate = framerate;
   }
 
   // Scale
   config->scale =
-      std::make_pair<std::string, std::string>(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+      std::make_pair<std::string, std::string>("", "");
   if (const char *scale = std::getenv("RTSP_RESOLUTION")) {
     size_t pos = 0;
     std::string scale_str(scale);

@@ -29,9 +29,12 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     gstreamer1.0-libav \
     gstreamer1.0-tools && \
     apt-get clean &&\
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* &&\
+    useradd --user-group --no-create-home --home-dir /tmp --shell /bin/false rtspatt
 
-COPY --from=build /build/rtspatt /
+COPY --from=build --chown=rtspatt /build/rtspatt /
+
+USER rtspatt
 
 EXPOSE 8554
 

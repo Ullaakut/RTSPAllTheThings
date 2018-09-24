@@ -1,6 +1,23 @@
-FROM ubuntu:17.10
+FROM ubuntu:17.10 AS build
 
 MAINTAINER brendan.le-glaunec@epitech.eu
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    libgstrtspserver-1.0-dev \
+    git \
+    ca-certificates \
+    cmake &&\
+    apt-get clean &&\
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /build
+
+COPY . .
+
+RUN cmake . && make
+
+FROM ubuntu:17.10
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     libgstrtspserver-1.0-dev \
@@ -12,9 +29,13 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     gstreamer1.0-libav \
     gstreamer1.0-tools && \
     apt-get clean &&\
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* &&\
+    useradd --user-group --no-create-home --home-dir /tmp --shell /bin/false rtspatt
 
-COPY rtspatt /
+COPY --from=build --chown=rtspatt /build/rtspatt /
+
+USER rtspatt
+
 EXPOSE 8554
 
 ENTRYPOINT ["/rtspatt"]

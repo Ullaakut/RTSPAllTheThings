@@ -97,13 +97,19 @@ void parse_env(std::shared_ptr<t_config> &config) {
       config->digest = false;
     }
   }
+
+  // Pipeline
+  config->pipeline = DEFAULT_GST_PIPELINE;
+  if (const char *pipeline = std::getenv("GST_PIPELINE")) {
+    config->pipeline = pipeline;
+  }
 }
 
 // Overwrite default parameters via cmd line
 bool parse_args(std::shared_ptr<t_config> &config, int argc, char **argv) {
   int c;
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:ht")) != -1) {
+  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:htg:")) != -1) {
     switch (c) {
     case 'r': // Route
       if (optarg && optarg[0] == '-') {
@@ -173,17 +179,23 @@ bool parse_args(std::shared_ptr<t_config> &config, int argc, char **argv) {
     case 'd': // Use digest instead of basic auth
       config->digest = true;
       break;
+    case 'g': // Force custom gstreamer pipeline
+      if (optarg && optarg[0] == '-') {
+        break;
+      }
+      config->pipeline = optarg;
+      break;
     case 'h': // help
       fprintf(stdout,
               "Usage: %s [-l address] [-b port] [-r route] [-i "
               "input] [-u username] [-p password] [-f framerate] [-s "
-              "'width'x'height'] [-d] [-t] [-h]\n",
+              "'width'x'height'] [-d] [-t] [-h] [-g gst-pipeline]\n",
               argv[0]);
       return true;
     case '?':
       if (optopt == 'r' || optopt == 'l' || optopt == 'p' || optopt == 'u' ||
           optopt == 'i' || optopt == 'a' || optopt == 'b' || optopt == 'f' ||
-          optopt == 's') {
+          optopt == 's' || optopt == 'g') {
         fprintf(stderr, "Option -%c requires an argument.\n", optopt);
       } else if (isprint(optopt)) {
         fprintf(stderr, "Unknown option `-%c'.\n", optopt);

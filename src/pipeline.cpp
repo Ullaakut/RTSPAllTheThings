@@ -119,17 +119,22 @@ std::string create_device_input(std::shared_ptr<t_config> &config) {
 std::string create_pipeline(std::shared_ptr<t_config> &config) {
   std::string launchCmd = "( ";
 
-  if (config->input_type == RTSP_INPUT) {
-    launchCmd += create_rtsp_input(config);
-  } else if (config->input_type == VIDEOTESTSRC_INPUT) {
-    launchCmd += create_videotestsrc_input(config);
-  } else if (config->input_type == FILE_INPUT) {
-    launchCmd += create_file_input(config);
-  } else if (config->input_type == DEVICE_INPUT) {
-    launchCmd += create_device_input(config);
+  if (config->pipeline != "") {
+    launchCmd += config->pipeline;
+  } else {
+    if (config->input_type == RTSP_INPUT) {
+      launchCmd += create_rtsp_input(config);
+    } else if (config->input_type == VIDEOTESTSRC_INPUT) {
+      launchCmd += create_videotestsrc_input(config);
+    } else if (config->input_type == FILE_INPUT) {
+      launchCmd += create_file_input(config);
+    } else if (config->input_type == DEVICE_INPUT) {
+      launchCmd += create_device_input(config);
+    }
+
+    launchCmd += " ! rtph264pay name=pay0 pt=96 ";
   }
 
-  launchCmd += " ! rtph264pay name=pay0 pt=96 ";
   launchCmd += " )";
   return launchCmd;
 }

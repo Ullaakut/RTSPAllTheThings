@@ -29,6 +29,7 @@
 #define DEFAULT_HEIGHT "720"
 #define DEFAULT_TIME_ENABLED false
 #define DEFAULT_DIGEST_ENABLED false
+#define DEFAULT_GST_PIPELINE ""
 
 enum InputType { UNDEFINED_INPUT, FILE_INPUT, RTSP_INPUT, VIDEOTESTSRC_INPUT, DEVICE_INPUT };
 
@@ -51,6 +52,9 @@ typedef struct s_config {
   // Options
   bool time;
   bool digest;
+
+  // Custom gstreamer pipeline
+  std::string pipeline;
 } t_config;
 
 typedef struct s_server {

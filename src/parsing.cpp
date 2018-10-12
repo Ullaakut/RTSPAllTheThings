@@ -109,7 +109,7 @@ void parse_env(std::shared_ptr<t_config> &config) {
 bool parse_args(std::shared_ptr<t_config> &config, int argc, char **argv) {
   int c;
   opterr = 0;
-  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:htg:")) != -1) {
+  while ((c = getopt(argc, argv, "r:u:l:p:b:f:s:i:g:ht")) != -1) {
     switch (c) {
     case 'r': // Route
       if (optarg && optarg[0] == '-') {

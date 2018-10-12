@@ -51,7 +51,7 @@ docker run --rm \
       [-i input]
       [-t] \
       [-d] \
-      [-g] gstreamer_pipeline \
+      [-g gstreamer_pipeline] \
 ```
 
 To have GStreamer debug while using the binary, simply run `export GST_DEBUG=your_debug_level` before using RTSP All The Things.

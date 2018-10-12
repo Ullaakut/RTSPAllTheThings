@@ -1,10 +1,26 @@
 # RTSPATT : RTSP All The Things 1.3.1
 
-[![License](https://img.shields.io/badge/license-Apache-blue.svg)](#license)
-[![Build Status](https://travis-ci.org/Ullaakut/RTSPAllTheThings.svg?branch=master)](https://travis-ci.org/Ullaakut/RTSPAllTheThings)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/86681212bbc04cf797640dbe700e7057)](https://www.codacy.com/app/brendan-le-glaunec/RTSPAllTheThings?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=EtixLabs/RTSPAllTheThings&amp;utm_campaign=Badge_Grade)
-[![Docker Pulls](https://img.shields.io/docker/pulls/ullaakut/rtspatt.svg?style=flat)](https://hub.docker.com/r/ullaakut/rtspatt/)
-[![Latest release](https://img.shields.io/github/release/EtixLabs/RTSPAllTheThings.svg?style=flat)](https://github.com/EtixLabs/RTSPAllTheThings/releases/latest)
+<p align="center">
+  <img width="250px" src="images/rtspatt.png" alt="rtspatt logo">
+</p>
+
+<p align="center">
+    <a href="#license">
+        <img src="https://img.shields.io/badge/license-Apache-blue.svg?style=flat" />
+    </a>
+    <a href="https://github.com/Ullaakut/RTSPAllTheThings/releases/latest">
+        <img src="https://img.shields.io/github/release/Ullaakut/RTSPAllTheThings.svg?style=flat" />
+    </a>
+    <a href="https://travis-ci.org/Ullaakut/RTSPAllTheThings">
+        <img src="https://travis-ci.org/Ullaakut/RTSPAllTheThings.svg?branch=master" />
+    </a>
+    <a href="https://hub.docker.com/r/ullaakut/rtspatt/">
+        <img src="https://img.shields.io/docker/pulls/ullaakut/rtspatt.svg?style=flat" />
+    </a>
+    <a href="https://www.codacy.com/app/brendan-le-glaunec/RTSPAllTheThings?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Ullaakut/RTSPAllTheThings&amp;utm_campaign=Badge_Grade">
+        <img src="https://api.codacy.com/project/badge/Grade/86681212bbc04cf797640dbe700e7057" />
+    </a>
+</p>
 
 **A multipurpose RTSP media server that can simulate RTSP cameras, broadcast RTSP streams, webcams and even create test videos or serve video files.**
 
@@ -84,7 +100,9 @@ All of these environment variables and command line arguments override the defau
 
 ## Examples
 
-<p align="center"><img src="https://preview.ibb.co/emxVna/Example_Screen_Shot.png" alt="Ball"></p>
+<p align="center">
+  <img src="https://cdn-images-1.medium.com/max/1600/1*SBtp1ArX37-3ru4RAeAe0A.gif" alt="animation rtspatt vlc">
+</p>
 
 > Serve video using basic auth on `rtsp:admin:test@//0.0.0.0:8554/live.sdp`
 
@@ -152,7 +170,19 @@ Here is the list of patterns you can use
 * `pattern:gradient`            - Gradient image
 * `pattern:colors`              - All colors
 
-<p align="center"><img width="200" height="200" src="https://image.ibb.co/nAjMtF/Ball.png" alt="Ball"><img width="200" height="200" src="https://image.ibb.co/dGZbSa/Bar.png" alt="Bar"><img width="200" height="200" src="https://image.ibb.co/bFenYF/Checkers.png" alt="Checkers"></br><img width="200" height="200" src="https://image.ibb.co/ekBC0v/Circular.png" alt="Circular"><img width="200" height="200" src="https://image.ibb.co/j8UMtF/Colors.png" alt="Colors"><img width="200" height="200" src="https://image.ibb.co/bCPX0v/Gamut.png" alt="Gamut"></br><img width="200" height="200" src="https://image.ibb.co/dd3QLv/Gradient.png" alt="Gradient"><img width="200" height="200" src="https://image.ibb.co/g7Ai7a/Pinwheel.png" alt="Pinwheel"><img width="200" height="200" src="https://image.ibb.co/gu7Kfv/SMPTE.png" alt="SMPTE"></br><img width="200" height="200" src="https://image.ibb.co/gnBefv/Snow.png" alt="Snow"><img width="200" height="200" src="https://image.ibb.co/mLjMtF/Spokes.png" alt="Spokes"></p>
+<p align="center">
+  <img width="200" height="200" src="https://image.ibb.co/nAjMtF/Ball.png" alt="Ball">
+  <img width="200" height="200" src="https://image.ibb.co/dGZbSa/Bar.png" alt="Bar">
+  <img width="200" height="200" src="https://image.ibb.co/bFenYF/Checkers.png" alt="Checkers"></br>
+  <img width="200" height="200" src="https://image.ibb.co/ekBC0v/Circular.png" alt="Circular">
+  <img width="200" height="200" src="https://image.ibb.co/j8UMtF/Colors.png" alt="Colors">
+  <img width="200" height="200" src="https://image.ibb.co/bCPX0v/Gamut.png" alt="Gamut"></br>
+  <img width="200" height="200" src="https://image.ibb.co/dd3QLv/Gradient.png" alt="Gradient">
+  <img width="200" height="200" src="https://image.ibb.co/g7Ai7a/Pinwheel.png" alt="Pinwheel">
+  <img width="200" height="200" src="https://image.ibb.co/gu7Kfv/SMPTE.png" alt="SMPTE"></br>
+  <img width="200" height="200" src="https://image.ibb.co/gnBefv/Snow.png" alt="Snow">
+  <img width="200" height="200" src="https://image.ibb.co/mLjMtF/Spokes.png" alt="Spokes">
+</p>
 
 ## License
 

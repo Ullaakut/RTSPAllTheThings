@@ -1,4 +1,4 @@
-# RTSPATT : RTSP All The Things 1.3.1
+# RTSPATT : RTSP All The Things
 
 <p align="center">
   <img width="250px" src="images/rtspatt.png" alt="rtspatt logo">

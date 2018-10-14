@@ -50,7 +50,7 @@ docker run --rm \
        [-e INPUT=your_input] \
        [-e ENABLE_TIME_OVERLAY=true|false] \
        [-e RTSP_AUTHENTICATION_METHOD=digest|basic] \
-       [-e GST_PIPELINE=your_custom_gstreamer_pipelime] \
+       [-e GST_PIPELINE=your_custom_gstreamer_pipeline] \
        [-e GST_DEBUG=your_debug_level] \
        ullaakut/rtspatt
 ```

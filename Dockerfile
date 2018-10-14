@@ -1,6 +1,17 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04 as builder
 
 MAINTAINER brendan.le-glaunec@epitech.eu
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    build-essential \
+    libgstrtspserver-1.0-dev \
+    cmake
+
+COPY . /rtspatt-src
+WORKDIR /rtspatt-build
+RUN cmake ../rtspatt-src && make
+
+
+FROM ubuntu:18.04
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     libgstrtspserver-1.0-dev \
@@ -14,7 +25,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     apt-get clean &&\
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-COPY rtspatt /
+COPY --from=builder /rtspatt-build/rtspatt /rtspatt
 EXPOSE 8554
 
 ENTRYPOINT ["/rtspatt"]

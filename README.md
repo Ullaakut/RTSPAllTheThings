@@ -138,10 +138,7 @@ All of these environment variables and command line arguments override the defau
 
 ## Build
 
-You can modify RTSPATT and create your own docker image. For this simply run:
-`./build.sh`
-
-This script will use a docker image that has all the necessary dependencies to build the solution, and will output the binary once it's ready. It will also use this to build the RTSPATT docker image itself.
+You can modify RTSPATT and create your own docker image. We use the [`builder` pattern](https://blog.alexellis.io/mutli-stage-docker-builds/), so you can just modify the sources and run `docker build -t rstpatt .` to re-compile the sources and rebuild the image.
 
 Once it's done, you can launch RTSPATT with:
 `docker run --rm -p 8554:8554 rtspatt` or `./rtspatt`.

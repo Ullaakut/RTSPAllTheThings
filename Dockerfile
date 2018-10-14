@@ -4,11 +4,7 @@ MAINTAINER brendan.le-glaunec@epitech.eu
 RUN apt-get update && apt-get install --no-install-recommends -y \
     build-essential \
     libgstrtspserver-1.0-dev \
-    git \
-    ca-certificates \
-    cmake &&\
-    apt-get clean &&\
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    cmake
 
 COPY . /rtspatt-src
 RUN mkdir -p /rtspatt-build && cd /rtspatt-build && cmake ../rtspatt-src && make

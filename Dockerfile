@@ -7,7 +7,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     cmake
 
 COPY . /rtspatt-src
-RUN mkdir -p /rtspatt-build && cd /rtspatt-build && cmake ../rtspatt-src && make
+WORKDIR /rtspatt-build
+RUN cmake ../rtspatt-src && make
 
 
 FROM ubuntu:18.04

@@ -178,13 +178,16 @@ Here is the list of patterns you can use
 <p align="center">
   <img width="200" height="200" src="https://image.ibb.co/nAjMtF/Ball.png" alt="Ball">
   <img width="200" height="200" src="https://image.ibb.co/dGZbSa/Bar.png" alt="Bar">
-  <img width="200" height="200" src="https://image.ibb.co/bFenYF/Checkers.png" alt="Checkers"></br>
+  <img width="200" height="200" src="https://image.ibb.co/bFenYF/Checkers.png" alt="Checkers">
+  </br>
   <img width="200" height="200" src="https://image.ibb.co/ekBC0v/Circular.png" alt="Circular">
   <img width="200" height="200" src="https://image.ibb.co/j8UMtF/Colors.png" alt="Colors">
-  <img width="200" height="200" src="https://image.ibb.co/bCPX0v/Gamut.png" alt="Gamut"></br>
+  <img width="200" height="200" src="https://image.ibb.co/bCPX0v/Gamut.png" alt="Gamut">
+  </br>
   <img width="200" height="200" src="https://image.ibb.co/dd3QLv/Gradient.png" alt="Gradient">
   <img width="200" height="200" src="https://image.ibb.co/g7Ai7a/Pinwheel.png" alt="Pinwheel">
-  <img width="200" height="200" src="https://image.ibb.co/gu7Kfv/SMPTE.png" alt="SMPTE"></br>
+  <img width="200" height="200" src="https://image.ibb.co/gu7Kfv/SMPTE.png" alt="SMPTE">
+  </br>
   <img width="200" height="200" src="https://image.ibb.co/gnBefv/Snow.png" alt="Snow">
   <img width="200" height="200" src="https://image.ibb.co/mLjMtF/Spokes.png" alt="Spokes">
 </p>

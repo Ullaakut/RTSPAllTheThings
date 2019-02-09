@@ -110,11 +110,11 @@ All of these environment variables and command line arguments override the defau
 
 > Serve video using basic auth on `rtsp:admin:test@//0.0.0.0:8554/live.sdp`
 
-`docker run --rm -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 rtspatt`
+`docker run --rm -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 ullaakut/rtspatt`
 
 > Serve video using digest auth on `rtsp:admin:test@//0.0.0.0:8554/live.sdp`
 
-`docker run --rm -e RTSP_AUTHENTICATION_METHOD=digest -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 rtspatt`
+`docker run --rm -e RTSP_AUTHENTICATION_METHOD=digest -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 ullaakut/rtspatt`
 
 > Launch an RTSP stream on `rtsp://0.0.0.0:8554/live.sdp` with a snow pattern and a resolution of 960x600 pixels:
 
@@ -126,7 +126,7 @@ All of these environment variables and command line arguments override the defau
 
 > Broadcast a video stream from a connected device:
 
-`docker run --rm -e INPUT="/dev/video0" --device=/dev/video0:/dev/video0 -p 8554:8554 rtspatt`
+`docker run --rm -e INPUT="/dev/video0" --device=/dev/video0:/dev/video0 -p 8554:8554 ullaakut/rtspatt`
 
 > Serve a video file on a specific address and route:
 

@@ -134,7 +134,7 @@ All of these environment variables and command line arguments override the defau
 
 > Serve am H264 video file without transcoding:
 
-`docker run --rm -e INPUT="/tmp/video.mp4" -e RTSP_PORT=18554 -e "filesrc location=/tmp/video.mp4 ! qtdemux ! video/x-h264 ! rtph264pay pt=96 name=pay0" -v "/path/to/your/video:/tmp/video.mp4" -p 18554:18554 ullaakut/rtspatt`
+`docker run --rm -e INPUT="/tmp/video.mp4" -e RTSP_PORT=18554 -e GST_PIPELINE="filesrc location=/tmp/video.mp4 ! qtdemux ! video/x-h264 ! rtph264pay pt=96 name=pay0" -v "/path/to/your/video:/tmp/video.mp4" -p 18554:18554 ullaakut/rtspatt`
 
 ## Build
 

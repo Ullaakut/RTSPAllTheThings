@@ -110,11 +110,11 @@ All of these environment variables and command line arguments override the defau
 
 > Serve video using basic auth on `rtsp:admin:test@//0.0.0.0:8554/live.sdp`
 
-`docker run --rm -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 rtspatt`
+`docker run --rm -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 ullaakut/rtspatt`
 
 > Serve video using digest auth on `rtsp:admin:test@//0.0.0.0:8554/live.sdp`
 
-`docker run --rm -e RTSP_AUTHENTICATION_METHOD=digest -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 rtspatt`
+`docker run --rm -e RTSP_AUTHENTICATION_METHOD=digest -e RTSP_USERNAME=admin  -e RTSP_PASSWORD=test -p 8554:8554 ullaakut/rtspatt`
 
 > Launch an RTSP stream on `rtsp://0.0.0.0:8554/live.sdp` with a snow pattern and a resolution of 960x600 pixels:
 
@@ -126,7 +126,7 @@ All of these environment variables and command line arguments override the defau
 
 > Broadcast a video stream from a connected device:
 
-`docker run --rm -e INPUT="/dev/video0" --device=/dev/video0:/dev/video0 -p 8554:8554 rtspatt`
+`docker run --rm -e INPUT="/dev/video0" --device=/dev/video0:/dev/video0 -p 8554:8554 ullaakut/rtspatt`
 
 > Serve a video file on a specific address and route:
 
@@ -134,7 +134,7 @@ All of these environment variables and command line arguments override the defau
 
 > Serve am H264 video file without transcoding:
 
-`docker run --rm -e INPUT="/tmp/video.mp4" -e RTSP_PORT=18554 -e "filesrc location=/tmp/video.mp4 ! qtdemux ! video/x-h264 ! rtph264pay pt=96 name=pay0" -v "/path/to/your/video:/tmp/video.mp4" -p 18554:18554 ullaakut/rtspatt`
+`docker run --rm -e INPUT="/tmp/video.mp4" -e RTSP_PORT=18554 -e GST_PIPELINE="filesrc location=/tmp/video.mp4 ! qtdemux ! video/x-h264 ! rtph264pay pt=96 name=pay0" -v "/path/to/your/video:/tmp/video.mp4" -p 18554:18554 ullaakut/rtspatt`
 
 ## Build
 

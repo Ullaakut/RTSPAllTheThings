@@ -26,6 +26,5 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY --from=builder /rtspatt-build/rtspatt /rtspatt
-EXPOSE 8554
 
 ENTRYPOINT ["/rtspatt"]

@@ -55,7 +55,7 @@ std::string encode(std::shared_ptr<t_config> &config) {
     }
 
   // Change caps & encode
-  if (config->scale.first != "" ||
+  if (config->scale.first != "" &&
       config->scale.second != "") {
     std::cout << "Resolution:\t" << config->scale.first << "x"
               << config->scale.second << std::endl

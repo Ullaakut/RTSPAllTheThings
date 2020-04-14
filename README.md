@@ -1,4 +1,4 @@
-# RTSPATT : RTSP All The Things
+# RTSPATT: RTSP All The Things [DEPRECATED]
 
 <p align="center">
   <img width="250px" src="images/rtspatt.png" alt="rtspatt logo">
@@ -23,6 +23,10 @@
 </p>
 
 **A multipurpose RTSP media server that can simulate RTSP cameras, broadcast RTSP streams, webcams and even create test videos or serve video files.**
+
+## :warning:  :warning: This repository is deprecated, please use [rtsp-simple-server](https://github.com/aler9/rtsp-simple-server) instead. :warning:  :warning:
+
+See [this issue](https://github.com/Ullaakut/RTSPAllTheThings/issues/79) for explanations on why this repository was archived and is no longer maintained.
 
 ## Dependencies
 
